@@ -1,7 +1,7 @@
 #===== User defined variables =====#
 
-DIR_SRC:=./
-DIR_INC:=./ 
+DIR_SRC:=src/
+DIR_INC:=src/ 
 DIR_OBJ:=obj/
 # Source, header and object files directories.
 # The object files directory also serves for dependency files.
@@ -12,11 +12,11 @@ EXT:=c
 TARGET:=semver.exe
 # The target executable file.
 
-COMMONFLAGS:=-Wall -Wextra -O2 -I../COTS/
+COMMONFLAGS:=-Wall -Wextra -O2 -ICOTS/
 CFLAGS=$(COMMONFLAGS)
 CXXFLAGS=$(COMMONFLAGS)
 # Flags added to the compilation.
-COMMONLIBS:= ../COTS/cii/cii-20/lib/libcii.a
+COMMONLIBS:= COTS/cii/cii-20/lib/libcii.a
 WIN32LIBS:=$(COMMONLIBS)
 LINUXLIBS:=$(COMMONLIBS)
 # Libraries needed to link the TARGET executable, for windows and for linux.
@@ -88,7 +88,7 @@ $(TARGET):$(OBJ)
 # The new object and dependency files are moved in the object directory.
 
 init:
-	-@mkdir $(DIR_SRC) $(DIR_INC) $(DIR_OBJ)
+	-@mkdir $(DIR_OBJ)
 	@echo Project created in the current directory
 
 %-depend:

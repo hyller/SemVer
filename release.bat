@@ -1,11 +1,7 @@
 @echo off
 
-cd src
-
-call semver.exe %%1 version.h
-make init
-make
-
-cd ..
+call semver.exe %%1 src/version.h
+make -f MakefileTarget init
+make -f MakefileTarget
 
 @echo on
