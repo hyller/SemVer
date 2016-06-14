@@ -1,19 +1,18 @@
-# SemVer
+## SemVer
 Manage Semantic Version String
 
-# Context
+## Context
 These steps would be done to release a software normally  
 1) Increase version number manually, for example, increase 0.1.0 to 0.2.0.  
 2) Rebuild your software and get the target file manually, for example target.hex.  
 3) Append the version number to the target file manually, for example target_0.2.0.hex.  
 
-The problem is that people would miss one or more steps if do them manually. So it is 
-great to do them automatically. `SemVer` aim to do the step 1 and step 3 automatically.
+**SemVer** aims to do the step 1 and step 3.
 
 
-# What can SemVer Do
+## What can SemVer Do
 
-`SemVer` creates version head file, increases version and appends the version to a file name.  
+**SemVer** creates version head file, increases version and appends the version to a file name.  
 The version format defined in [semver.org](http://semver.org).  
 
 
