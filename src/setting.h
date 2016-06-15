@@ -22,6 +22,7 @@
     int   init;
     char* initarg;
     char  filename[ 128 ];
+    char* vername;
   } tSetting;
 
   void Setting_Init( tSetting* as );

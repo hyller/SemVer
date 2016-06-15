@@ -20,21 +20,22 @@ TEST_GROUP( TestParse )
 
 TEST( TestParse, ParseAll )
 {
-  char* testargv[] = {
-    (char*)"semver",
-    (char*)"-x",
-    (char*)"-v",
-    (char*)"-h",
-    (char*)"-s",
-    (char*)"-l2",
-    (char*)"-ahello",
-    (char*)"-i2.3.4",
-    (char*)"version.h"
+  char *testargv[] = {
+    ( char* )"semver",
+    ( char* )"-x",
+    ( char* )"-v",
+    ( char* )"-h",
+    ( char* )"-s",
+    ( char* )"-l2",
+    ( char* )"-ahello",
+    ( char* )"-i2.3.4",
+    ( char* )"-nTESTVERSION",
+    ( char* )"version.h"
   };
-  int   testargc = sizeof( testargv ) / sizeof( testargv[ 0 ] );
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   Setting_Init( &as );
-  Setting_Parse( &as, testargc, (char**)testargv );
+  Setting_Parse( &as, testargc, ( char** )testargv );
 
   CHECK_EQUAL( 1, as.version );
   CHECK_EQUAL( 1, as.help );
@@ -46,4 +47,5 @@ TEST( TestParse, ParseAll )
   STRCMP_EQUAL( "hello", as.appendarg );
   STRCMP_EQUAL( "version.h", as.filename );
   STRCMP_EQUAL( "2.3.4", as.initarg );
+  STRCMP_EQUAL( "TESTVERSION", as.vername );
 }

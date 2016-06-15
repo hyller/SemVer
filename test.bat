@@ -17,3 +17,5 @@ call semver.exe -z -l2 version.test
 call semver.exe -aversion.test -l2 version.test 
 call semver.exe -s simple.test
 call semver.exe -g version.test
+call semver.exe -i1.2.3 -nTESTVERSION version2.test
+call semver.exe -nTESTVERSION version2.test

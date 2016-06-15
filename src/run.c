@@ -31,18 +31,19 @@ void PrintUsage( void )
   printf( "-y,  Change minor version number.\n" );
   printf( "-z,  Change patch version number.\n" );
   printf( "-l,  Specify version number digits.\n" );
-  printf( "-v,  Print program version.\n" );  
+  printf( "-v,  Print program version.\n" );
   printf( "-h,  Print this help screen.\n" );
   printf( "-s,  Process simple version string.\n" );
   printf( "-g,  Get version string.\n" );
   printf( "-a,  Append version string to a file name.\n" );
   printf( "-i,  Initialize version.\n" );
+  printf( "-n,  Specify version definition name.\n" );
   printf( "\n" );
 }
 
-void GetVersion( tSetting* as, tSemverVersion* vd )
+void GetVersion( tSetting *as, tSemverVersion *vd )
 {
-  char verstr[ BUF_SIZE ] = { 0 };
+  char verstr[BUF_SIZE] = { 0 };
 
   if ( as->init == 1 )
   {
@@ -52,20 +53,20 @@ void GetVersion( tSetting* as, tSemverVersion* vd )
   {
     if ( as->simple == 1 )
     {
-      FileProxy_ReadVersionSimple( as->filename, (char*)verstr );
+      FileProxy_ReadVersionSimple( as->filename, ( char* )verstr );
     }
     else
     {
-      FileProxy_ReadVersion( as->filename, (char*)verstr );
+      FileProxy_ReadVersion( as->filename, ( char* )verstr, ( char* )as->vername );
     }
   }
 
   SemVer_ConvertFromStr( vd, verstr );
 
-  printf( "Input  version: %s\n", (char*)verstr );
+  printf( "Input  version: %s\n", ( char* )verstr );
 }
 
-int IncreaseVersion( tSetting* as, tSemverVersion* versionData )
+int IncreaseVersion( tSetting *as, tSemverVersion *versionData )
 {
   int index = as->index;
 
@@ -90,38 +91,39 @@ int IncreaseVersion( tSetting* as, tSemverVersion* versionData )
   }
 }
 
-void OutputVersion( tSetting* as, tSemverVersion* vd )
+void OutputVersion( tSetting *as, tSemverVersion *vd )
 {
-  char verstr[ BUF_SIZE ] = { 0 };
+  char verstr[BUF_SIZE] = { 0 };
 
   SemVer_ConvertToStr( vd, verstr, as->length );
 
   if ( as->simple == 1 )
   {
-    FileProxy_WriteVersionSimple( (char*)as->filename, (char*)verstr );
+    FileProxy_WriteVersionSimple( ( char* )as->filename, ( char* )verstr );
   }
   else
   {
-    FileProxy_WriteVersion( (char*)as->filename, (char*)verstr );
+    FileProxy_WriteVersion( ( char* )as->filename, ( char* )verstr, ( char* )as->vername );
   }
-  printf( "Output version: %s\n", (char*)verstr );
+
+  printf( "Output version: %s\n", ( char* )verstr );
 }
 
-void AppendToFile( tSetting* as, tSemverVersion* vd )
+void AppendToFile( tSetting *as, tSemverVersion *vd )
 {
-  char verstr[ BUF_SIZE ]   = { 0 };
-  char filename[ BUF_SIZE ] = { 0 };
+  char verstr[BUF_SIZE]   = { 0 };
+  char filename[BUF_SIZE] = { 0 };
 
   SemVer_ConvertToStr( vd, verstr, as->length );
 
-  ChangFileName( as->appendarg, (char*)verstr, filename );
+  ChangFileName( as->appendarg, ( char* )verstr, filename );
 
-  FileProxy_CopyFile( as->appendarg, (char*)filename );
+  FileProxy_CopyFile( as->appendarg, ( char* )filename );
 
-  printf( "New   filename: %s\n", (char*)filename );
+  printf( "New   filename: %s\n", ( char* )filename );
 }
 
-int semverrun( int argc, char** argv )
+int semverrun( int argc, char **argv )
 {
   tSetting       as;
   tSemverVersion vd;
@@ -134,30 +136,25 @@ int semverrun( int argc, char** argv )
   {
     PrintUsage( );
   }
-  else
-  if ( as.version == 1 )
+  else if ( as.version == 1 )
   {
     PrintVersion( );
   }
-  else
-  if ( as.append == 1 )
+  else if ( as.append == 1 )
   {
     GetVersion( &as, &vd );
     AppendToFile( &as, &vd );
   }
-  else
-  if ( as.init == 1 )
+  else if ( as.init == 1 )
   {
     GetVersion( &as, &vd );
     OutputVersion( &as, &vd );
   }
-  else
-  if ( as.get == 1 )
+  else if ( as.get == 1 )
   {
     GetVersion( &as, &vd );
   }
-  else
-  if ( 0 == FileProxy_IsFileExist( as.filename ) )
+  else if ( 0 == FileProxy_IsFileExist( as.filename ) )
   {
     GetVersion( &as, &vd );
     IncreaseVersion( &as, &vd );

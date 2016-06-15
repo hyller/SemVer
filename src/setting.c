@@ -8,13 +8,13 @@
 
 #include "setting.h"
 
-void Setting_Init( tSetting* as )
+void Setting_Init( tSetting *as )
 {
   memset( as, 0, sizeof( tSetting ) );
   as->index = 1;
 }
 
-int Setting_Parse( tSetting* as, int argc, char** argv )
+int Setting_Parse( tSetting *as, int argc, char **argv )
 {
   int c;
 
@@ -25,7 +25,7 @@ int Setting_Parse( tSetting* as, int argc, char** argv )
   }
 
   opterr = 0;
-  while ( ( c = getopt( argc, argv, "xyzvghsa:i:l:" ) ) != -1 )
+  while ( ( c = getopt( argc, argv, "xyzvghsa:i:l:n:" ) ) != -1 )
   {
     switch ( c )
     {
@@ -46,9 +46,9 @@ int Setting_Parse( tSetting* as, int argc, char** argv )
         break;
 
       case 'l':
-        if( optarg )
+        if ( optarg )
         {
-          as->length = atoi(optarg);
+          as->length = atoi( optarg );
         }
         else
         {
@@ -66,6 +66,10 @@ int Setting_Parse( tSetting* as, int argc, char** argv )
         as->initarg = optarg;
         break;
 
+      case 'n':
+        as->vername = optarg;
+        break;
+
       case 'v':
         as->version = 1;
         break;
@@ -73,9 +77,11 @@ int Setting_Parse( tSetting* as, int argc, char** argv )
       case 'q':
         as->quiet = 1;
         break;
+
       case 'g':
         as->get = 1;
         break;
+
       case 'h':
         as->help = 1;
         break;
@@ -94,7 +100,7 @@ int Setting_Parse( tSetting* as, int argc, char** argv )
 
   if ( optind < argc )
   {
-    strcpy( (char*)as->filename, argv[ optind ] );
+    strcpy( ( char* )as->filename, argv[optind] );
   }
 
   return( 0 );
