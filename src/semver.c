@@ -11,24 +11,24 @@
 #define INITIAL_VERSION_STR "0.1.0"
 #define BUF_SIZE            128
 
-static BOOL SemVer_IsValidPos( int len, int lpos, int rpos )
+static int SemVer_IsValidPos( int len, int lpos, int rpos )
 {
   if ( ( lpos == 0 ) || ( rpos == 0 ) )
   {
-    return( FALSE );
+    return( 0 );
   }
 
   if ( ( lpos == 1 ) || ( rpos == len ) )
   {
-    return( FALSE );
+    return( 0 );
   }
 
   if ( ( lpos == rpos ) || ( ( lpos + 1 ) == rpos ) )
   {
-    return( FALSE );
+    return( 0 );
   }
 
-  return( TRUE );
+  return( 1 );
 }
 
 int SemVer_Init( tSemverVersion* me )

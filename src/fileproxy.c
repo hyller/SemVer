@@ -13,6 +13,7 @@
 
 #define FILEPROXY_FILE_BUF_SIZE        1024
 #define FILEPROXY_DEFAULT_VERSION_NAME "VERSION"
+#define FILEPROXY_WARN_COMMENT         "/* This file is create by semver(https://github.com/hyller/SemVer) automaticlly, don't modify manually */"
 
 static int FileProxy_ReadFile( char *filename, char *buf, int size )
 {
@@ -75,8 +76,8 @@ int FileProxy_ReadVersion( char *filename, char *verstr, char *vername )
   int  rpos;
   int  len;
   char defstr[100] = { 0 };
-  
-  if(vername == NULL || *vername == 0)
+
+  if ( ( vername == NULL ) || ( *vername == 0 ) )
   {
     vername = FILEPROXY_DEFAULT_VERSION_NAME;
   }
@@ -99,16 +100,17 @@ int FileProxy_ReadVersion( char *filename, char *verstr, char *vername )
 int FileProxy_WriteVersion( char *filename, char *verstr, char *vername )
 {
   char buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
-  int  len                                    = 0;
-  char *timestr                               = 0;
-  
-  if(vername == NULL || *vername == 0)
+  int  len                          = 0;
+  char *timestr                     = 0;
+
+  if ( ( vername == NULL ) || ( *vername == 0 ) )
   {
     vername = FILEPROXY_DEFAULT_VERSION_NAME;
   }
 
   timestr = FileProxy_GetDay( );
 
+  len += sprintf( &buf[len], "%s\n", FILEPROXY_WARN_COMMENT );
   len += sprintf( &buf[len], "#ifndef %s_H\n", vername );
   len += sprintf( &buf[len], "#define %s_H\n", vername );
   len += sprintf( &buf[len], "\n" );
@@ -146,7 +148,7 @@ int FileProxy_ReadVersionSimple( char *filename, char *verstr )
 int FileProxy_WriteVersionSimple( char *filename, char *verstr )
 {
   char buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
-  char *timestr                               = 0;
+  char *timestr                     = 0;
 
   timestr = FileProxy_GetDay( );
 
