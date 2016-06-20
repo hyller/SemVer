@@ -1,0 +1,6 @@
+version: 0.1.0-ci{build}
+
+environment:
+  - Platform: MinGW32
+    PlatformToolset: 4.8.5
+
