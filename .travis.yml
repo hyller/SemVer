@@ -1,4 +1,4 @@
 language: cpp
 script:
   - make -f MakefileTarget init  
-  - make -f MakefileTarget
+ # - make -f MakefileTarget
