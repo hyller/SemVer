@@ -13,7 +13,6 @@
 
 #define FILEPROXY_FILE_BUF_SIZE        1024
 #define FILEPROXY_DEFAULT_VERSION_NAME "VERSION"
-#define FILEPROXY_WARN_COMMENT         "/* This file is create by semver(https://github.com/hyller/SemVer) automaticlly, don't modify manually */"
 
 static int FileProxy_ReadFile( char *filename, char *buf, int size )
 {
@@ -109,7 +108,8 @@ int FileProxy_WriteVersion( char *filename, char *verstr, char *vername )
 
   timestr = FileProxy_GetDay( );
 
-  len += sprintf( &buf[len], "%s\n", FILEPROXY_WARN_COMMENT );
+  len += sprintf( &buf[len], "/* This file is managed by semver %s, Don't modify manually */\n", VERSION );
+  len += sprintf( &buf[len], "/* Visit https://github.com/hyller/SemVer for more information */\n" );
   len += sprintf( &buf[len], "#ifndef %s_H\n", vername );
   len += sprintf( &buf[len], "#define %s_H\n", vername );
   len += sprintf( &buf[len], "\n" );

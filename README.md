@@ -1,6 +1,10 @@
 ## SemVer
 Manage Semantic Version String
 
+Travis Linux build status:
+[![Build Status](https://travis-ci.org/semver/semver.png?branch=master)](https://travis-ci.org/hyller/semver)
+
+
 ## Context
 These steps would be done to release a software normally  
 1) Increase version number manually, for example, increase 0.1.0 to 0.2.0.  
