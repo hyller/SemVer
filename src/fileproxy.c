@@ -53,13 +53,12 @@ static int FileProxy_WriteFile( char *filename, char *buf, int size )
 static char * FileProxy_GetDay( void )
 {
   static char DayBuffer[80];
-  size_t      len;
   struct tm   *tmt;
   time_t      timet;
 
   timet = time( 0 );
   tmt   = gmtime( &timet );
-  len   = strftime( DayBuffer, 80, "%Y-%m-%d", tmt );
+  strftime( DayBuffer, 80, "%Y-%m-%d", tmt );
 
   return DayBuffer;
 }
