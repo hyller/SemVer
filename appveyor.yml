@@ -1,8 +1,6 @@
-version: 0.1.0-ci{build}
-
-image: Visual Studio 2015
-
-- Platform: MinGW32
-    
+version: 1.0.{build}
 build_script:
-- cmd: make
+- cmd: >-
+    set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0;%PATH%
+
+    make
