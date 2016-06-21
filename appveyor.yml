@@ -2,9 +2,7 @@ version: 0.1.0-ci{build}
 
 image: Visual Studio 2015
 
-environment:
-  - Platform: MinGW32
-    PlatformToolset: 4.8.5
+- Platform: MinGW32
     
 build_script:
 - cmd: make
