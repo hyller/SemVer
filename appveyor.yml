@@ -1,6 +1,6 @@
 version: 1.0.{build}
 build_script:
 - cmd: >-
-    set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0;%PATH%
+    set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 
     make
