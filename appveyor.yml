@@ -3,4 +3,4 @@ build_script:
 - cmd: >-
     set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 
-    make
+    make -f MakefileTarget
