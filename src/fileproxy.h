@@ -9,12 +9,12 @@
 int FileProxy_IsFileExist( char *filename );
 
 int FileProxy_ReadVersion( char *filename,
-                               char *verstr,
-                               char *vername );
+                           char *verstr,
+                           char *vername );
 
 int FileProxy_WriteVersion( char *filename,
-                                char *verstr,
-                                char *vername );
+                            char *verstr,
+                            char *vername );
 
 int FileProxy_ReadVersionSimple( char *filename,
                                  char *verstr );
