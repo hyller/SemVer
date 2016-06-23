@@ -34,8 +34,8 @@ search-file=$(foreach DIR,$1,$(wildcard $(DIR)*.$(EXT)))
 
 #===== Variables =====#
 
-DIR_SRC_ALL:=$(DIR_SRC) $(call search-dir-all,$(DIR_SRC))
-DIR_INC_ALL:=$(DIR_INC) $(call search-dir-all,$(DIR_INC))
+DIR_SRC_ALL:=$(DIR_SRC) $($(DIR_SRC))
+DIR_INC_ALL:=$(DIR_INC) $($(DIR_INC))
 # List of all directories and subdirectories that can contain source and header files.
 SRC:=$(notdir $(call search-file,$(DIR_SRC_ALL)))
 # List of all source files in the main source directory and its subdirectories.
@@ -49,7 +49,7 @@ VPATH:=$(DIR_SRC_ALL) $(DIR_OBJ)
 # The VPATH variable contains all the source, header, object and dependency files directories.
 # This is the variable Make uses to know where the targets and prerequisites are.
 
-COMMONFLAGS+=$(I_SRC) $(I_INC) -MMD
+COMMONFLAGS+=$(I_INC) -MMD
 # The flags the compiler needs to know where the source and header files are (I_SRC and I_INC).
 # It compiles source files with the -MMD option that creates dependency files.
 
