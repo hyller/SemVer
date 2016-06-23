@@ -13,7 +13,7 @@
 
 #define FILEPROXY_FILE_BUF_SIZE        1024
 #define FILEPROXY_DEFAULT_VERSION_NAME "VERSION"
-
+//
 static int FileProxy_ReadFile( char *filename, char *buf, int size )
 {
   FILE *ifp;

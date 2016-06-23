@@ -30,6 +30,7 @@ LD_LIBRARIES += -lpthread.dll
 
 CPPUTEST_USE_GCOV = Y
 CPPUTEST_USE_VPATH = Y
+CPPUTEST_WARNINGFLAGS =  -Wall
 
 #include 
 include $(CPPUTEST_HOME)/build/MakefileWorker.mk
