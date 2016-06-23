@@ -17,7 +17,7 @@
 void PrintVersion( void )
 {
   printf( "\n" );
-  printf( "semver increases version number in a file %s %s\n", VERSION, MODIFY_DATE );
+  printf( "semver increases version number in a file %s %s\n", VERSION, VERSION_MODIFY_DATE );
   printf( "\n" );
 }
 

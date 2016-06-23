@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "cii/cii-20/include/str.h"
 #include "semver.h"
+#include "utils.h"
 
 #define FMT_STR_SIMPLE      "%d.%d.%d"
 #define FMT_STR_SIMPLE2     "%02d.%02d.%02d"

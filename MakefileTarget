@@ -12,13 +12,13 @@ EXT:=c
 TARGET:=semver.exe
 # The target executable file.
 
-COMMONFLAGS:=-Wall -Wextra -O2 -ICOTS/
+COMMONFLAGS:=-Wall
 CFLAGS=$(COMMONFLAGS)
 CXXFLAGS=$(COMMONFLAGS)
 # Flags added to the compilation.
-COMMONLIBS:= COTS/cii/cii-20/lib/libcii.a
-WIN32LIBS:=$(COMMONLIBS)
-LINUXLIBS:=$(COMMONLIBS)
+# COMMONLIBS:= 
+# WIN32LIBS:=$(COMMONLIBS)
+# LINUXLIBS:=$(COMMONLIBS)
 # Libraries needed to link the TARGET executable, for windows and for linux.
 
 #===== Functions =====#

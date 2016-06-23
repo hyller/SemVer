@@ -6,8 +6,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <time.h>
+#include "windows.h"
 
-#include "cii/cii-20/include/str.h"
+#include "utils.h"
 #include "fileproxy.h"
 #include "version.h"
 
