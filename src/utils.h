@@ -6,17 +6,17 @@
   {
 #endif
 
-extern int Str_chr( const char *s,
+int Str_chr( const char *s,
                     int        i,
                     int        j,
                     int        c );
 
-extern int Str_rchr( const char *s,
+ int Str_rchr( const char *s,
                      int        i,
                      int        j,
                      int        c );
 
-extern int Str_find( const char *s,
+ int Str_find( const char *s,
                      int        i,
                      int        j,
                      const char *str );

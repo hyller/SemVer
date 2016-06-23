@@ -6,11 +6,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <time.h>
-#include "windows.h"
 
-#include "utils.h"
 #include "fileproxy.h"
 #include "version.h"
+#include "utils.h"
 
 #define FILEPROXY_FILE_BUF_SIZE        1024
 #define FILEPROXY_DEFAULT_VERSION_NAME "VERSION"
@@ -161,7 +160,41 @@ int FileProxy_WriteVersionSimple( char *filename, char *verstr )
 
 int FileProxy_CopyFile( char *filename, char *newname )
 {
-  CopyFile( filename, newname, 0 );
+  FILE *fpSrc = NULL;
+  FILE *fpDst = NULL;
+  int  ch, rval = 1;
 
-  return( 0 );
+  if ( ( fpSrc = fopen( filename, "r" ) ) == NULL )
+  {
+    /*只读方式打开源文件*/
+    goto ERROR;
+  }
+
+  if ( ( fpDst = fopen( newname, "w" ) ) == NULL )
+  {
+    /*只写方式打开目标文件*/
+    goto ERROR;
+  }
+  /* 复制文件 */
+
+  while ( ( ch = fgetc( fpSrc ) ) != EOF )
+  {
+    if ( fputc( ch, fpDst ) == EOF )
+    {
+      goto ERROR;
+    }
+  }
+  fflush( fpDst ); /* 确保存盘 */ goto EXIT;
+
+ERROR:   rval = 0;
+EXIT:
+  if ( fpSrc != NULL )
+  {
+    fclose( fpSrc );
+  }
+  if ( fpDst != NULL )
+  {
+    fclose( fpDst );
+  }
+  return rval;
 }
