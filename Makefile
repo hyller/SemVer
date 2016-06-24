@@ -3,7 +3,7 @@ CC = gcc
 UNITY_ROOT = Unity/2.3
 
 CFLAGS  = -std=c99
-CFLAGS += -Wall
+CFLAGS += -Wall -Werror
 CFLAGS += -DUNITY_FIXTURES
 CFLAGS += -Isrc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 VPATH   = $(UNITY_ROOT)/src/ $(UNITY_ROOT)/extras/fixture/src/ src/ tests/
