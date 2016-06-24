@@ -1,5 +1,5 @@
 #include "CppUTest/TestHarness.h"
-#include "FileProxy.h"
+#include "fileproxy.h"
 
 TEST_GROUP( TestFileProxy )
 {
