@@ -11,6 +11,8 @@ TEST_SETUP(TestFileProxy)
 
 TEST_TEAR_DOWN(TestFileProxy)
 {
+  remove(( char* )"Full.Write.Name");
+  remove(( char* )"Simple.Write");  
 }
 
 TEST( TestFileProxy, SimpleVersion )
