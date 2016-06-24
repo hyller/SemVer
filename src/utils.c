@@ -1,19 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "utils.h"
 
-#define assert( x )
+#define Utils_Idx( i, len )      ( ( i ) <= 0 ? ( i ) + ( len ) : ( i ) - 1 )
+#define Utils_Convert( s, i, j ) do {\
+    int len;\
+    len = ( int )strlen( s );\
+    i   = Utils_Idx( i, len );\
+    j   = Utils_Idx( j, len );\
+    if ( i > j ) { int t = i; i = j; j = t; }\
+} while ( 0 )
 
-#define idx( i, len )      ( ( i ) <= 0 ? ( i ) + ( len ) : ( i ) - 1 )
-#define convert( s, i, j ) do { int len;\
-                                assert( s ); len = ( int )strlen( s );\
-                                i                = idx( i, len ); j = idx( j, len );\
-                                if ( i > j ) { int t = i; i = j; j = t; }\
-                                assert( i >= 0 && j <= len ); } while ( 0 )
-
-void ChangFileName( char *oldname, char *append, char *newname )
+void Utils_StrAppend( char *oldname, char *append, char *newname )
 {
   char prefix[128] = { 0 };
   char sufix[128]  = { 0 };
@@ -21,7 +20,7 @@ void ChangFileName( char *oldname, char *append, char *newname )
   int  len;
 
   len = ( int )strlen( oldname );
-  pos = Str_chr( oldname, 1, len + 1, '.' );
+  pos = Utils_StrChr( oldname, 1, len + 1, '.' );
 
   if ( pos != 0 )
   {
@@ -36,9 +35,9 @@ void ChangFileName( char *oldname, char *append, char *newname )
   }
 }
 
-int Str_chr( const char *s, int i, int j, int c )
+int Utils_StrChr( const char *s, int i, int j, int c )
 {
-  convert( s, i, j );
+  Utils_Convert( s, i, j );
   for (; i < j; i++ )
   {
     if ( s[i] == c )
@@ -49,23 +48,24 @@ int Str_chr( const char *s, int i, int j, int c )
   return 0;
 }
 
-int Str_rchr( const char *s, int i, int j, int c )
+int Utils_StrRchr( const char *s, int i, int j, int c )
 {
-  convert( s, i, j );
+  Utils_Convert( s, i, j );
   while ( j > i )
+  {
     if ( s[--j] == c )
     {
       return j + 1;
     }
+  }
   return 0;
 }
 
-int Str_find( const char *s, int i, int j, const char *str )
+int Utils_StrFind( const char *s, int i, int j, const char *str )
 {
   int len2;
 
-  convert( s, i, j );
-  assert( str );
+  Utils_Convert( s, i, j );
   len2 = ( int )strlen( str );
   if ( len2 == 0 )
   {
@@ -85,7 +85,7 @@ int Str_find( const char *s, int i, int j, const char *str )
   {
     for (; i + len2 <= j; i++ )
     {
-      if ( ( strncmp( &s[i], str, (size_t)len2 ) == 0 ) )
+      if ( ( strncmp( &s[i], str, ( size_t )len2 ) == 0 ) )
       {
         return i + 1;
       }

@@ -1,8 +1,5 @@
 #include <string.h>
-
-#include "unity.h"
 #include "unity_fixture.h"
-
 #include "setting.h"
 
 tSetting as;

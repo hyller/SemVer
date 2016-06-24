@@ -86,16 +86,17 @@ int FileProxy_ReadVersion( char *filename, char *verstr, char *vername )
 
   len = ( int )strlen( buf ) + 1;
 
-  lpos = Str_find( buf, 1, len, defstr );
-  lpos = Str_chr( buf, lpos + 1, len, '"' );
-  rpos = Str_chr( buf, lpos + 1, len, '"' );
+  lpos = Utils_StrFind( buf, 1, len, defstr );
+  lpos = Utils_StrChr( buf, lpos + 1, len, '"' );
+  rpos = Utils_StrChr( buf, lpos + 1, len, '"' );
 
   memcpy( verstr, &buf[lpos], ( size_t )( rpos - lpos - 1 ) );
 
   return( 0 );
 }
 
-int FileProxy_WriteVersion( char *filename, char *verstr, char *vername )
+int FileProxy_WriteVersion( char *filename, char *verstr,
+                            char *vername, int needdate )
 {
   char buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
   int  len                          = 0;
@@ -114,7 +115,10 @@ int FileProxy_WriteVersion( char *filename, char *verstr, char *vername )
   len += sprintf( &buf[len], "#define %s_H\n", vername );
   len += sprintf( &buf[len], "\n" );
   len += sprintf( &buf[len], "#define  %s             \"%s\"\n", vername, verstr );
-  len += sprintf( &buf[len], "#define  %s_MODIFY_DATE \"%s\"\n", vername, timestr );
+  if ( needdate )
+  {
+    len += sprintf( &buf[len], "#define  %s_MODIFY_DATE \"%s\"\n", vername, timestr );
+  }
   len += sprintf( &buf[len], "\n" );
   len += sprintf( &buf[len], "#endif\n" );
 
@@ -144,14 +148,21 @@ int FileProxy_ReadVersionSimple( char *filename, char *verstr )
   return( 0 );
 }
 
-int FileProxy_WriteVersionSimple( char *filename, char *verstr )
+int FileProxy_WriteVersionSimple( char *filename, char *verstr, int needdate )
 {
   char buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
   char *timestr                     = 0;
 
-  timestr = FileProxy_GetDay( );
+  if ( needdate )
+  {
+    timestr = FileProxy_GetDay( );
 
-  sprintf( buf, "%s    %s", verstr, timestr );
+    sprintf( buf, "%s    %s", verstr, timestr );
+  }
+  else
+  {
+    sprintf( buf, "%s", verstr );
+  }
 
   FileProxy_WriteFile( filename, buf, ( int )strlen( buf ) );
 
@@ -162,37 +173,31 @@ int FileProxy_CopyFile( char *filename, char *newname )
 {
   FILE *fpSrc = NULL;
   FILE *fpDst = NULL;
-  int  ch, rval = 1;
+  int  ch;
+  int  ret = 1;
 
-  if ( ( fpSrc = fopen( filename, "r" ) ) == NULL )
-  {
-    goto ERROR;
-  }
+  fpSrc = fopen( filename, "r" );
+  fpDst = fopen( newname, "w" );
 
-  if ( ( fpDst = fopen( newname, "w" ) ) == NULL )
+  if ( ( fpSrc != NULL ) && ( fpDst != NULL ) )
   {
-    goto ERROR;
-  }
-
-  while ( ( ch = fgetc( fpSrc ) ) != EOF )
-  {
-    if ( fputc( ch, fpDst ) == EOF )
+    while ( ( ch = fgetc( fpSrc ) ) != EOF )
     {
-      goto ERROR;
+      if ( fputc( ch, fpDst ) == EOF )
+      {
+        ret = 0;
+        break;
+      }
     }
-  }
-  fflush( fpDst );
-  goto EXIT;
+    fflush( fpDst );
 
-ERROR:   rval = 0;
-EXIT:
-  if ( fpSrc != NULL )
-  {
     fclose( fpSrc );
-  }
-  if ( fpDst != NULL )
-  {
     fclose( fpDst );
   }
-  return rval;
+  else
+  {
+    ret = 0;
+  }
+  
+  return ret;
 }

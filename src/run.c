@@ -17,7 +17,7 @@
 void PrintVersion( void )
 {
   printf( "\n" );
-  printf( "semver increases version number in a file %s %s\n", VERSION, VERSION_MODIFY_DATE );
+  printf( "semver increases version number in a file %s\n", VERSION);
   printf( "\n" );
 }
 
@@ -38,6 +38,7 @@ void PrintUsage( void )
   printf( "-a,  Append version string to a file name.\n" );
   printf( "-i,  Initialize version.\n" );
   printf( "-n,  Specify version definition name.\n" );
+  printf( "-d,  Include modify date in version header file.\n" );
   printf( "\n" );
 }
 
@@ -57,7 +58,9 @@ void GetVersion( tSetting *as, tSemverVersion *vd )
     }
     else
     {
-      FileProxy_ReadVersion( as->filename, ( char* )verstr, ( char* )as->vername );
+      FileProxy_ReadVersion( as->filename,
+                             ( char* )verstr,
+                             ( char* )as->vername );
     }
   }
 
@@ -99,11 +102,16 @@ void OutputVersion( tSetting *as, tSemverVersion *vd )
 
   if ( as->simple == 1 )
   {
-    FileProxy_WriteVersionSimple( ( char* )as->filename, ( char* )verstr );
+    FileProxy_WriteVersionSimple( ( char* )as->filename,
+                                  ( char* )verstr,
+                                  as->needdate );
   }
   else
   {
-    FileProxy_WriteVersion( ( char* )as->filename, ( char* )verstr, ( char* )as->vername );
+    FileProxy_WriteVersion( ( char* )as->filename,
+                            ( char* )verstr,
+                            ( char* )as->vername,
+                            as->needdate );
   }
 
   printf( "Output version: %s\n", ( char* )verstr );
@@ -116,7 +124,7 @@ void AppendToFile( tSetting *as, tSemverVersion *vd )
 
   SemVer_ConvertToStr( vd, verstr, as->length );
 
-  ChangFileName( as->appendarg, ( char* )verstr, filename );
+  Utils_StrAppend( as->appendarg, ( char* )verstr, filename );
 
   FileProxy_CopyFile( as->appendarg, ( char* )filename );
 

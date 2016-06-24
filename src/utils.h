@@ -6,22 +6,22 @@
   {
 #endif
 
-int Str_chr( const char *s,
+int Utils_StrChr( const char *s,
                     int        i,
                     int        j,
                     int        c );
 
- int Str_rchr( const char *s,
+ int Utils_StrRchr( const char *s,
                      int        i,
                      int        j,
                      int        c );
 
- int Str_find( const char *s,
+ int Utils_StrFind( const char *s,
                      int        i,
                      int        j,
                      const char *str );
 
-void ChangFileName( char *oldname,
+void Utils_StrAppend( char *oldname,
                     char *append,
                     char *newname );
 

@@ -14,13 +14,15 @@ int FileProxy_ReadVersion( char *filename,
 
 int FileProxy_WriteVersion( char *filename,
                             char *verstr,
-                            char *vername );
+                            char *vername,
+                            int  needdate );
 
 int FileProxy_ReadVersionSimple( char *filename,
                                  char *verstr );
 
 int FileProxy_WriteVersionSimple( char *filename,
-                                  char *verstr );
+                                  char *verstr,
+                                  int  needdate  );
 
 int FileProxy_CopyFile( char *filename,
                         char *newname );

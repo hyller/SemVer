@@ -26,7 +26,7 @@ int Setting_Parse( tSetting *as, int argc, char **argv )
   }
 
   opterr = 0;
-  while ( ( c = getopt( argc, argv, "xyzvghsa:i:l:n:" ) ) != -1 )
+  while ( ( c = getopt( argc, argv, "xyzvghsda:i:l:n:" ) ) != -1 )
   {
     switch ( c )
     {
@@ -45,7 +45,9 @@ int Setting_Parse( tSetting *as, int argc, char **argv )
       case 's':
         as->simple = 1;
         break;
-
+      case 'd':
+        as->needdate = 1;
+        break;
       case 'l':
         if ( optarg )
         {

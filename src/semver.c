@@ -50,8 +50,8 @@ int SemVer_ConvertFromStr( tSemverVersion* me, char* str )
   strcpy( strtemp, str );
   len = (int)strlen( strtemp );
 
-  lpos = Str_chr( strtemp, 1, len, '.' );
-  rpos = Str_rchr( strtemp, 1, len, '.' );
+  lpos = Utils_StrChr( strtemp, 1, len, '.' );
+  rpos = Utils_StrRchr( strtemp, 1, len, '.' );
   if ( SemVer_IsValidPos( len, lpos, rpos ) )
   {
     strtemp[ lpos - 1 ] = 0;
