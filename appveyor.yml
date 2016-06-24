@@ -2,7 +2,12 @@ version: 1.0.{build}
 build_script:
 - cmd: >-
     set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
+    
     make     
+    
     make clean    
+    
     make check
+    
     make clean
+    
