@@ -1,17 +1,13 @@
 version: 1.0.{build}
 build_script:
 - cmd: >-
-    set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0;%PATH%
-
-    make
-
+    set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
+    
+    make     
+    
+    make clean    
+    
     make check
-notifications:
-- provider: Email
-  to:
-  - haile_jiang@163.com
-  subject: appveyor semver build status
-  message: appveyor semver build status
-  on_build_success: true
-  on_build_failure: true
-  on_build_status_changed: false
+    
+    make clean
+    
