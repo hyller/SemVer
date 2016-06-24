@@ -9,12 +9,12 @@ tSetting as;
 
 TEST_GROUP( TestParse );
 
-TEST_SETUP(TestParse)
+TEST_SETUP( TestParse )
 {
   Setting_Init( &as );
 }
 
-TEST_TEAR_DOWN(TestParse)
+TEST_TEAR_DOWN( TestParse )
 {
 }
 

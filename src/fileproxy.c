@@ -13,7 +13,7 @@
 
 #define FILEPROXY_FILE_BUF_SIZE        1024
 #define FILEPROXY_DEFAULT_VERSION_NAME "VERSION"
-//
+
 static int FileProxy_ReadFile( char *filename, char *buf, int size )
 {
   FILE *ifp;
@@ -166,16 +166,13 @@ int FileProxy_CopyFile( char *filename, char *newname )
 
   if ( ( fpSrc = fopen( filename, "r" ) ) == NULL )
   {
-    /*只读方式打开源文件*/
     goto ERROR;
   }
 
   if ( ( fpDst = fopen( newname, "w" ) ) == NULL )
   {
-    /*只写方式打开目标文件*/
     goto ERROR;
   }
-  /* 复制文件 */
 
   while ( ( ch = fgetc( fpSrc ) ) != EOF )
   {
@@ -184,7 +181,8 @@ int FileProxy_CopyFile( char *filename, char *newname )
       goto ERROR;
     }
   }
-  fflush( fpDst ); /* 确保存盘 */ goto EXIT;
+  fflush( fpDst );
+  goto EXIT;
 
 ERROR:   rval = 0;
 EXIT:

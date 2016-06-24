@@ -27,3 +27,16 @@
 # *.exe
 *.out
 *.app
+
+# source insight files
+semver.IAB
+semver.IAD
+semver.IMB
+semver.IMD
+semver.PFI
+semver.PO
+semver.PR
+semver.PRI
+semver.PS
+semver.SearchResults
+
