@@ -23,11 +23,26 @@ else
 	TARGET_EXTENSION=.out
 endif
 
-UNITY_ROOT=Unity/2.3
+UNITY_ROOT=../..
 C_COMPILER=gcc
 
 CFLAGS = -std=c99
 CFLAGS += -Wall
+CFLAGS += -Wextra
+CFLAGS += -Werror 
+CFLAGS += -Wpointer-arith
+CFLAGS += -Wcast-align
+CFLAGS += -Wwrite-strings
+CFLAGS += -Wswitch-default
+CFLAGS += -Wunreachable-code
+CFLAGS += -Winit-self
+CFLAGS += -Wmissing-field-initializers
+CFLAGS += -Wno-unknown-pragmas
+CFLAGS += -Wstrict-prototypes
+CFLAGS += -Wundef
+CFLAGS += -Wold-style-definition
+CFLAGS += -Wmissing-prototypes
+CFLAGS += -Wmissing-declarations
 CFLAGS += -DUNITY_FIXTURES
 
 TARGET_BASE1=all_tests
@@ -35,20 +50,13 @@ TARGET1 = $(TARGET_BASE1)$(TARGET_EXTENSION)
 SRC_FILES1=\
   $(UNITY_ROOT)/src/unity.c \
   $(UNITY_ROOT)/extras/fixture/src/unity_fixture.c \
-  src/fileproxy.c \
-  src/run.c \
-  src/semver.c \
-  src/setting.c \
-  src/utils.c \
-  tests/TestFileProxy.c \
-  tests/TestParse.c \
-  tests/TestSemVer.c \
-  tests/TestUtils.c \
-  tests/TestFileProxyRunner.c \
-  tests/TestParseRunner.c \
-  tests/TestSemVerRunner.c \
-  tests/TestUtilsRunner.c \
-  tests/main.c
+  src/ProductionCode.c \
+  src/ProductionCode2.c \
+  test/TestProductionCode.c \
+  test/TestProductionCode2.c \
+  test/test_runners/TestProductionCode_Runner.c \
+  test/test_runners/TestProductionCode2_Runner.c \
+  test/test_runners/all_tests.c
 INC_DIRS=-Isrc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 SYMBOLS=
 

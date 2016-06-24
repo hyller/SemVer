@@ -1,8 +1,5 @@
-language: cpp
+language: c
 script:
-  - COTS/CppUTest/3.8/
-  - make -f MakefileCppUTest
-  - make -f MakefileCppUTestExt
-  - cd ../../../
+  - make
   - make -f MakefileTarget init  
   - make -f MakefileTarget
