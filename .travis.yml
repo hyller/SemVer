@@ -1,5 +1,6 @@
 language: c
 script:
   - make
-  - make -f MakefileTarget init  
-  - make -f MakefileTarget
+  - make clean  
+  - make check
+  - make clean
