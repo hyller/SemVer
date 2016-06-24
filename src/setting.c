@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <getopt.h>
 
 #include "setting.h"
 
