@@ -36,9 +36,9 @@ Options:
 -h,  Print this help screen.  
 -s,  Process simple version string.  
 -a,  Append version string to a file name.  
--i,  Initialize version. 
--n,  Specify version definition name. 
--d,  Include modify date in version header file. 
+-i,  Initialize version.  
+-n,  Specify version definition name.   
+-d,  Include modify date in version header file.   
 
 ## Example
 
