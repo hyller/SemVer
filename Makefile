@@ -1,3 +1,9 @@
+ifeq ($(OS),Windows_NT)
+  TARGET_EXT = .exe
+else
+  TARGET_EXT = .out
+endif
+
 CC = gcc
 
 UNITY_ROOT = Unity/2.3
@@ -22,19 +28,22 @@ OBJS_TEST  += TestUtils.o TestUtilsRunner.o
 OBJS_TEST  += TestMain.o
 OBJS_UNITY = unity.o unity_fixture.o
 
-EXEC_NAME_TARGET = semver.exe
-EXEC_NAME_TEST = semver_test.exe
+EXEC_NAME_TARGET = semver$(TARGET_EXT)
+EXEC_NAME_TEST = semver_test$(TARGET_EXT)
 
 all: $(EXEC_NAME_TARGET)
 
 $(EXEC_NAME_TARGET): $(OBJS_SRC) $(OBJS_MAIN)
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
+	./$(EXEC_NAME_TARGET) -v
+
 
 check: $(EXEC_NAME_TEST)
 
 $(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 	./$(EXEC_NAME_TEST) -v
+
 	
 clean:
 	rm -f *.o *.d $(EXEC_NAME_TARGET) $(EXEC_NAME_TEST) 

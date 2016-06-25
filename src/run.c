@@ -173,5 +173,5 @@ int semverrun( int argc, char **argv )
     OutputVersion( &as, &vd );
   }
 
-  return( 1 );
+  return( 0 );
 }
