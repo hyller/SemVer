@@ -32,11 +32,11 @@ TEST( TestUtils, NoSuffix )
 
 TEST( TestUtils, TestStrFind )
 {
-  char str[] = "hellostrfind";
+  char str[]  = "hellostrfind";
   char find[] = "str";
   int  ret;
-   
-  ret = Utils_StrFind( str, 1, strlen(str), find );
+
+  ret = Utils_StrFind( str, 1, strlen( str ), find );
 
   TEST_ASSERT_EQUAL_INT( 6, ret );
 }
@@ -45,8 +45,8 @@ TEST( TestUtils, TestStrChr )
 {
   char str[] = "hellostrfind";
   int  ret;
-   
-  ret = Utils_StrChr( str, 1, strlen(str), 'l' );
+
+  ret = Utils_StrChr( str, 1, strlen( str ), 'l' );
 
   TEST_ASSERT_EQUAL_INT( 3, ret );
 }
@@ -55,9 +55,8 @@ TEST( TestUtils, TestStrRchr )
 {
   char str[] = "hellostrfind";
   int  ret;
-   
-  ret = Utils_StrRchr( str, 1, strlen(str), 'l' );
+
+  ret = Utils_StrRchr( str, 1, strlen( str ), 'l' );
 
   TEST_ASSERT_EQUAL_INT( 4, ret );
 }
-

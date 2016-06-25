@@ -42,10 +42,10 @@ int Utils_StrChr( const char *s, int i, int j, int c )
   {
     if ( s[i] == c )
     {
-      return i + 1;
+      return( i + 1 );
     }
   }
-  return 0;
+  return( 0 );
 }
 
 int Utils_StrRchr( const char *s, int i, int j, int c )
@@ -55,10 +55,10 @@ int Utils_StrRchr( const char *s, int i, int j, int c )
   {
     if ( s[--j] == c )
     {
-      return j + 1;
+      return( j + 1 );
     }
   }
-  return 0;
+  return( 0 );
 }
 
 int Utils_StrFind( const char *s, int i, int j, const char *str )
@@ -69,7 +69,7 @@ int Utils_StrFind( const char *s, int i, int j, const char *str )
   len2 = ( int )strlen( str );
   if ( len2 == 0 )
   {
-    return i + 1;
+    return( i + 1 );
   }
   else if ( len2 == 1 )
   {
@@ -77,7 +77,7 @@ int Utils_StrFind( const char *s, int i, int j, const char *str )
     {
       if ( s[i] == *str )
       {
-        return i + 1;
+        return( i + 1 );
       }
     }
   }
@@ -87,9 +87,9 @@ int Utils_StrFind( const char *s, int i, int j, const char *str )
     {
       if ( ( strncmp( &s[i], str, ( size_t )len2 ) == 0 ) )
       {
-        return i + 1;
+        return( i + 1 );
       }
     }
   }
-  return 0;
+  return( 0 );
 }

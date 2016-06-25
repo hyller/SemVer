@@ -1,9 +1,6 @@
 ## SemVer
 Manage Semantic Version String
 
-Travis Linux build status:
-[![Build Status](https://travis-ci.org/semver/semver.png?branch=master)](https://travis-ci.org/hyller/semver)
-
 
 ## Context
 These steps would be done to release a software normally  
@@ -33,6 +30,8 @@ Options:
 -s,  Process simple version string.  
 -a,  Append version string to a file name.  
 -i,  Initialize version. 
+-n,  Specify version definition name. 
+-d,  Include modify date in version header file. 
 
 ## Example
 

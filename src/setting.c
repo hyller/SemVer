@@ -45,9 +45,11 @@ int Setting_Parse( tSetting *as, int argc, char **argv )
       case 's':
         as->simple = 1;
         break;
+
       case 'd':
         as->needdate = 1;
         break;
+
       case 'l':
         if ( optarg )
         {

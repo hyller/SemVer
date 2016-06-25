@@ -59,7 +59,7 @@ static char * FileProxy_GetDay( void )
   tmt   = gmtime( &timet );
   strftime( DayBuffer, 80, "%Y-%m-%d", tmt );
 
-  return DayBuffer;
+  return( DayBuffer );
 }
 
 int FileProxy_IsFileExist( char *filename )
@@ -173,31 +173,28 @@ int FileProxy_CopyFile( char *filename, char *newname )
 {
   FILE *fpSrc = NULL;
   FILE *fpDst = NULL;
-  int  ch;
-  int  ret = 1;
+  int  ret    = 1;
+  char ch;
 
-  fpSrc = fopen( filename, "r" );
-  fpDst = fopen( newname, "w" );
+  fpSrc = fopen( filename, "rb" );
+  fpDst = fopen( newname, "wb" );
 
   if ( ( fpSrc != NULL ) && ( fpDst != NULL ) )
   {
-    while ( ( ch = fgetc( fpSrc ) ) != EOF )
+    while ( !feof( fpSrc ) )
     {
-      if ( fputc( ch, fpDst ) == EOF )
-      {
-        ret = 0;
-        break;
-      }
+      fread( &ch, sizeof( char ), 1, fpSrc );
+      fwrite( &ch, sizeof( char ), 1, fpDst );
     }
     fflush( fpDst );
-
     fclose( fpSrc );
     fclose( fpDst );
+    ret = 0;
   }
   else
   {
-    ret = 0;
+    ret = 1;
   }
-  
-  return ret;
+
+  return( ret );
 }

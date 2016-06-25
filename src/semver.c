@@ -31,7 +31,7 @@ static int SemVer_IsValidPos( int len, int lpos, int rpos )
   return( 1 );
 }
 
-int SemVer_Init( tSemverVersion* me )
+int SemVer_Init( tSemverVersion *me )
 {
   me->major = 0;
   me->minor = 1;
@@ -40,25 +40,25 @@ int SemVer_Init( tSemverVersion* me )
   return( 0 );
 }
 
-int SemVer_ConvertFromStr( tSemverVersion* me, char* str )
+int SemVer_ConvertFromStr( tSemverVersion *me, char *str )
 {
   int  lpos;
   int  rpos;
   int  len;
-  char strtemp[ BUF_SIZE ] = { 0 };
+  char strtemp[BUF_SIZE] = { 0 };
 
   strcpy( strtemp, str );
-  len = (int)strlen( strtemp );
+  len = ( int )strlen( strtemp );
 
   lpos = Utils_StrChr( strtemp, 1, len, '.' );
   rpos = Utils_StrRchr( strtemp, 1, len, '.' );
   if ( SemVer_IsValidPos( len, lpos, rpos ) )
   {
-    strtemp[ lpos - 1 ] = 0;
-    strtemp[ rpos - 1 ] = 0;
-    me->major           = atoi( &strtemp[ 0 ] );
-    me->minor           = atoi( &strtemp[ lpos ] );
-    me->patch           = atoi( &strtemp[ rpos ] );
+    strtemp[lpos - 1] = 0;
+    strtemp[rpos - 1] = 0;
+    me->major         = atoi( &strtemp[0] );
+    me->minor         = atoi( &strtemp[lpos] );
+    me->patch         = atoi( &strtemp[rpos] );
 
     return( 0 );
   }
@@ -71,24 +71,24 @@ int SemVer_ConvertFromStr( tSemverVersion* me, char* str )
   }
 }
 
-int SemVer_ConvertToStr( tSemverVersion* me, char* str, int length )
+int SemVer_ConvertToStr( tSemverVersion *me, char *str, int length )
 {
-  if( length == 2 )
+  if ( length == 2 )
   {
-    sprintf( str, (char*)FMT_STR_SIMPLE2, me->major, me->minor, (int)me->patch );
+    sprintf( str, ( char* )FMT_STR_SIMPLE2, me->major, me->minor, ( int )me->patch );
   }
-  else if( length == 3 )
+  else if ( length == 3 )
   {
-    sprintf( str, (char*)FMT_STR_SIMPLE3, me->major, me->minor, (int)me->patch );
+    sprintf( str, ( char* )FMT_STR_SIMPLE3, me->major, me->minor, ( int )me->patch );
   }
   else
-  {  
-    sprintf( str, (char*)FMT_STR_SIMPLE, me->major, me->minor, (int)me->patch );
+  {
+    sprintf( str, ( char* )FMT_STR_SIMPLE, me->major, me->minor, ( int )me->patch );
   }
   return( 0 );
 }
 
-int SemVer_IncreaseMajor( tSemverVersion* me )
+int SemVer_IncreaseMajor( tSemverVersion *me )
 {
   me->major = me->major + 1;
   me->minor = 0;
@@ -97,7 +97,7 @@ int SemVer_IncreaseMajor( tSemverVersion* me )
   return( 0 );
 }
 
-int SemVer_IncreaseMinor( tSemverVersion* me )
+int SemVer_IncreaseMinor( tSemverVersion *me )
 {
   me->minor = me->minor + 1;
   me->patch = 0;
@@ -105,7 +105,7 @@ int SemVer_IncreaseMinor( tSemverVersion* me )
   return( 0 );
 }
 
-int SemVer_IncreasePatch( tSemverVersion* me )
+int SemVer_IncreasePatch( tSemverVersion *me )
 {
   me->patch = me->patch + 1;
 

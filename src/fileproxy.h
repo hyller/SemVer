@@ -22,7 +22,7 @@ int FileProxy_ReadVersionSimple( char *filename,
 
 int FileProxy_WriteVersionSimple( char *filename,
                                   char *verstr,
-                                  int  needdate  );
+                                  int  needdate );
 
 int FileProxy_CopyFile( char *filename,
                         char *newname );

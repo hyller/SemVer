@@ -3,7 +3,7 @@ CC = gcc
 UNITY_ROOT = Unity/2.3
 
 CFLAGS  = -std=c99
-CFLAGS += -Wall -Werror
+CFLAGS += -Wall -Werror -MMD
 CFLAGS += -DUNITY_FIXTURES
 CFLAGS += -Isrc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 
@@ -15,7 +15,11 @@ VPATH   = $(UNITY_ROOT)/src/ $(UNITY_ROOT)/extras/fixture/src/ src/ tests/
 
 OBJS_SRC   = fileproxy.o run.o semver.o setting.o utils.o
 OBJS_MAIN  = main.o
-OBJS_TEST  = TestFileProxy.o TestParse.o TestSemVer.o TestUtils.o TestFileProxyRunner.o TestParseRunner.o TestSemVerRunner.o TestUtilsRunner.o TestMain.o
+OBJS_TEST  = TestFileProxy.o TestFileProxyRunner.o
+OBJS_TEST  += TestParse.o TestParseRunner.o
+OBJS_TEST  += TestSemVer.o TestSemVerRunner.o
+OBJS_TEST  += TestUtils.o TestUtilsRunner.o
+OBJS_TEST  += TestMain.o
 OBJS_UNITY = unity.o unity_fixture.o
 
 EXEC_NAME_TARGET = semver.exe
@@ -33,5 +37,5 @@ $(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)
 	./$(EXEC_NAME_TEST) -v
 	
 clean:
-	rm -f *.o $(EXEC_NAME_TARGET) $(EXEC_NAME_TEST) 
+	rm -f *.o *.d $(EXEC_NAME_TARGET) $(EXEC_NAME_TEST) 
 
