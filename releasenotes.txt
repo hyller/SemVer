@@ -1,2 +1,4 @@
 [x.x.x]
 -- User can specify the version name
+-- Include modify date in version file is optional
+-- Do unit test by unity

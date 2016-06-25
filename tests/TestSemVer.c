@@ -83,3 +83,64 @@ TEST( TestSemVer, Increase255 )
   TEST_ASSERT_EQUAL_INT( 255, ver.minor );
   TEST_ASSERT_EQUAL_INT( 256, ver.patch );
 }
+
+TEST( TestSemVer, SemVerInit )
+{
+  tSemverVersion ver;
+
+  ver.major = 0;
+  ver.minor = 0;
+  ver.patch = 0;
+
+  SemVer_Init( &ver );
+
+  TEST_ASSERT_EQUAL_INT( 0, ver.major );
+  TEST_ASSERT_EQUAL_INT( 1, ver.minor );
+  TEST_ASSERT_EQUAL_INT( 0, ver.patch );
+}
+
+TEST( TestSemVer, SemVerIncreaseMajor )
+{
+  tSemverVersion ver;
+
+  ver.major = 0;
+  ver.minor = 0;
+  ver.patch = 0;
+
+  SemVer_IncreaseMajor( &ver );
+
+  TEST_ASSERT_EQUAL_INT( 1, ver.major );
+  TEST_ASSERT_EQUAL_INT( 0, ver.minor );
+  TEST_ASSERT_EQUAL_INT( 0, ver.patch );
+}
+
+TEST( TestSemVer, SemVerIncreaseMinor )
+{
+  tSemverVersion ver;
+
+  ver.major = 0;
+  ver.minor = 0;
+  ver.patch = 0;
+
+  SemVer_IncreaseMinor( &ver );
+
+  TEST_ASSERT_EQUAL_INT( 0, ver.major );
+  TEST_ASSERT_EQUAL_INT( 1, ver.minor );
+  TEST_ASSERT_EQUAL_INT( 0, ver.patch );
+}
+
+TEST( TestSemVer, SemVerIncreasePatch )
+{
+  tSemverVersion ver;
+
+  ver.major = 0;
+  ver.minor = 0;
+  ver.patch = 0;
+
+  SemVer_IncreasePatch( &ver );
+
+  TEST_ASSERT_EQUAL_INT( 0, ver.major );
+  TEST_ASSERT_EQUAL_INT( 0, ver.minor );
+  TEST_ASSERT_EQUAL_INT( 1, ver.patch );
+}
+

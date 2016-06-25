@@ -16,17 +16,18 @@ CFLAGS += -Isrc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 VPATH   = $(UNITY_ROOT)/src/ $(UNITY_ROOT)/extras/fixture/src/ src/ tests/
 
 # Support coverage calculation
-# CFLAGS += -fprofile-arcs -ftest-coverage
-# LDLIBS += -lgcov
+CFLAGS += -fprofile-arcs -ftest-coverage
+LDLIBS += -lgcov
 
-OBJS_SRC   = fileproxy.o run.o semver.o setting.o utils.o
-OBJS_MAIN  = main.o
-OBJS_TEST  = TestFileProxy.o TestFileProxyRunner.o
-OBJS_TEST  += TestParse.o TestParseRunner.o
-OBJS_TEST  += TestSemVer.o TestSemVerRunner.o
-OBJS_TEST  += TestUtils.o TestUtilsRunner.o
-OBJS_TEST  += TestMain.o
-OBJS_UNITY = unity.o unity_fixture.o
+DIR_OBJS   = objs
+OBJS_SRC   = $(DIR_OBJS)/fileproxy.o $(DIR_OBJS)/run.o $(DIR_OBJS)/semver.o $(DIR_OBJS)/setting.o $(DIR_OBJS)/utils.o
+OBJS_MAIN  = $(DIR_OBJS)/main.o
+OBJS_TEST  = $(DIR_OBJS)/TestFileProxy.o $(DIR_OBJS)/TestFileProxyRunner.o
+OBJS_TEST  += $(DIR_OBJS)/TestParse.o $(DIR_OBJS)/TestParseRunner.o
+OBJS_TEST  += $(DIR_OBJS)/TestSemVer.o $(DIR_OBJS)/TestSemVerRunner.o
+OBJS_TEST  += $(DIR_OBJS)/TestUtils.o $(DIR_OBJS)/TestUtilsRunner.o
+OBJS_TEST  += $(DIR_OBJS)/TestMain.o
+OBJS_UNITY = $(DIR_OBJS)/unity.o $(DIR_OBJS)/unity_fixture.o
 
 EXEC_NAME_TARGET = semver$(TARGET_EXT)
 EXEC_NAME_TEST = semver_test$(TARGET_EXT)
@@ -44,7 +45,10 @@ $(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 	./$(EXEC_NAME_TEST) -v
 
+$(DIR_OBJS)/%o: %c
+	@mkdir -p $(DIR_OBJS)
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
 	
 clean:
-	rm -f *.o *.d $(EXEC_NAME_TARGET) $(EXEC_NAME_TEST) 
+	rm -f $(DIR_OBJS)/*.* $(EXEC_NAME_TARGET) $(EXEC_NAME_TEST) 
 
