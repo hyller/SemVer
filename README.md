@@ -18,7 +18,7 @@ The version format defined in [semver.org](http://semver.org).
 
 ## Build from code
 
-There are prebuild binarise in folder bin. You can try to use them directly. 
+There are prebuild binaries in folder bin. You can try to use them directly. .exe is for windows and .out is for linux.
 
 If you want to build it from code. GCC is required to be installed. Mingw, Cygwin or native Linux is workable.
 

@@ -1,4 +1,4 @@
-[x.x.x]
+[0.11.0]
 -- User can specify the version name
 -- Include modify date in version file is optional
 -- Do unit test by unity

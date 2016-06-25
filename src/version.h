@@ -1,7 +1,8 @@
-#ifndef _VERSION_H_
-#define _VERSION_H_
+/* This file is managed by semver 0.10.0, Don't modify manually */
+/* Visit https://github.com/hyller/SemVer for more information */
+#ifndef VERSION_H
+#define VERSION_H
 
-#define  VERSION             "0.10.1"
-#define  VERSION_MODIFY_DATE "2016-06-13"
+#define  VERSION             "0.11.0"
 
 #endif
