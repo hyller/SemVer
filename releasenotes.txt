@@ -1,3 +1,5 @@
+[0.11.1]
+-- Fix issue: there would be extra gcov information under linux
 [0.11.0]
 -- User can specify the version name
 -- Include modify date in version file is optional
