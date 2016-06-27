@@ -15,10 +15,6 @@ CFLAGS += -Isrc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 
 VPATH   = $(UNITY_ROOT)/src/ $(UNITY_ROOT)/extras/fixture/src/ src/ tests/
 
-# Support coverage calculation
-CFLAGS += -fprofile-arcs -ftest-coverage
-LDLIBS += -lgcov
-
 DIR_OBJS   = objs
 OBJS_SRC   = $(DIR_OBJS)/fileproxy.o $(DIR_OBJS)/run.o $(DIR_OBJS)/semver.o $(DIR_OBJS)/setting.o $(DIR_OBJS)/utils.o
 OBJS_MAIN  = $(DIR_OBJS)/main.o
@@ -41,7 +37,9 @@ $(EXEC_NAME_TARGET): $(OBJS_SRC) $(OBJS_MAIN)
 
 check: $(EXEC_NAME_TEST)
 
-$(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)
+$(EXEC_NAME_TEST): CFLAGS += -fprofile-arcs -ftest-coverage
+$(EXEC_NAME_TEST): LDLIBS += -lgcov
+$(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)    
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 	./$(EXEC_NAME_TEST) -v
 
