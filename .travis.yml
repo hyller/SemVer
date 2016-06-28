@@ -1,6 +1,9 @@
 language: c
+before_install:
+  - pip install --user cpp-coveralls
 script:
   - make
   - make clean  
   - make check
-  - make clean
+after_success:
+  - coveralls --include objs --gcov-options '\-lp'
