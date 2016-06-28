@@ -1,7 +1,7 @@
 @echo off
 
-make -f MakefileTarget init
-make -f MakefileTarget
+make clean
+make 
 
 @echo on
 

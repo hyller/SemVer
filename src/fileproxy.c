@@ -10,6 +10,7 @@
 #include "fileproxy.h"
 #include "version.h"
 #include "utils.h"
+#include "semver.h"
 
 #define FILEPROXY_FILE_BUF_SIZE        1024
 #define FILEPROXY_DEFAULT_VERSION_NAME "VERSION"
@@ -98,14 +99,17 @@ int FileProxy_ReadVersion( char *filename, char *verstr, char *vername )
 int FileProxy_WriteVersion( char *filename, char *verstr,
                             char *vername, int needdate )
 {
-  char buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
-  int  len                          = 0;
-  char *timestr                     = 0;
+  char           buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
+  int            len                          = 0;
+  char           *timestr                     = 0;
+  tSemverVersion vernum                       = { 0 };
 
   if ( ( vername == NULL ) || ( *vername == 0 ) )
   {
     vername = FILEPROXY_DEFAULT_VERSION_NAME;
   }
+
+  SemVer_ConvertFromStr( &vernum, verstr );
 
   timestr = FileProxy_GetDay( );
 
@@ -115,6 +119,9 @@ int FileProxy_WriteVersion( char *filename, char *verstr,
   len += sprintf( &buf[len], "#define %s_H\n", vername );
   len += sprintf( &buf[len], "\n" );
   len += sprintf( &buf[len], "#define  %s             \"%s\"\n", vername, verstr );
+  len += sprintf( &buf[len], "#define  %s_MAJOR       %uU\n", vername, vernum.major );
+  len += sprintf( &buf[len], "#define  %s_MINOR       %uU\n", vername, vernum.minor );
+  len += sprintf( &buf[len], "#define  %s_PATCH       %uU\n", vername, vernum.patch );
   if ( needdate )
   {
     len += sprintf( &buf[len], "#define  %s_MODIFY_DATE \"%s\"\n", vername, timestr );
