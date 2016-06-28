@@ -6,4 +6,4 @@ script:
   - make clean  
   - make check
 after_success:
-  - coveralls --include objs --gcov-options '\-lp'
+  - coveralls --exclude Unity --exclude tests --gcov-options '\-lp'
