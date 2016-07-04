@@ -15,13 +15,16 @@ CFLAGS += -Isrc -I$(UNITY_ROOT)/src -I$(UNITY_ROOT)/extras/fixture/src
 
 VPATH   = $(UNITY_ROOT)/src/ $(UNITY_ROOT)/extras/fixture/src/ src/ tests/
 
-DIR_OBJS   = objs
-OBJS_SRC   = $(DIR_OBJS)/fileproxy.o $(DIR_OBJS)/run.o $(DIR_OBJS)/semver.o $(DIR_OBJS)/setting.o $(DIR_OBJS)/utils.o
-OBJS_MAIN  = $(DIR_OBJS)/main.o
-OBJS_TEST  = $(DIR_OBJS)/TestFileProxy.o $(DIR_OBJS)/TestFileProxyRunner.o
+DIR_OBJS    = objs
+OBJS_SRC    = $(DIR_OBJS)/fileproxy.o $(DIR_OBJS)/run.o $(DIR_OBJS)/semver.o 
+OBJS_SRC   += $(DIR_OBJS)/setting.o $(DIR_OBJS)/utils.o
+OBJS_MAIN   = $(DIR_OBJS)/main.o
+OBJS_TEST   = $(DIR_OBJS)/TestFileProxy.o $(DIR_OBJS)/TestFileProxyRunner.o
 OBJS_TEST  += $(DIR_OBJS)/TestParse.o $(DIR_OBJS)/TestParseRunner.o
 OBJS_TEST  += $(DIR_OBJS)/TestSemVer.o $(DIR_OBJS)/TestSemVerRunner.o
 OBJS_TEST  += $(DIR_OBJS)/TestUtils.o $(DIR_OBJS)/TestUtilsRunner.o
+OBJS_TEST  += $(DIR_OBJS)/TestRun.o $(DIR_OBJS)/TestRunRunner.o
+OBJS_TEST  += $(DIR_OBJS)/FormatOutputSpy.o
 OBJS_TEST  += $(DIR_OBJS)/TestMain.o
 OBJS_UNITY = $(DIR_OBJS)/unity.o $(DIR_OBJS)/unity_fixture.o
 
@@ -41,6 +44,7 @@ $(EXEC_NAME_TEST): CFLAGS += -fprofile-arcs -ftest-coverage
 $(EXEC_NAME_TEST): LDLIBS += -lgcov
 $(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)    
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
+	rm -f $(DIR_OBJS)/*.gcda
 	./$(EXEC_NAME_TEST) -v
 
 $(DIR_OBJS)/%o: %c

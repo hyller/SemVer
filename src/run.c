@@ -14,32 +14,34 @@
 
 #define  BUF_SIZE 128
 
+int (* FormatOutput)( const char* format, ... ) = printf;
+
 void PrintVersion( void )
 {
-  printf( "\n" );
-  printf( "semver increases version number in a file %s\n", VERSION );
-  printf( "\n" );
+  FormatOutput( "\n" );
+  FormatOutput( "semver increases version number in a file %s\n", VERSION );
+  FormatOutput( "\n" );
 }
 
 void PrintUsage( void )
 {
-  printf( "\n" );
-  printf( "Usage: semver [option] [FILE]\n" );
-  printf( "\n" );
-  printf( "Options:\n" );
-  printf( "-x,  Change major version number.\n" );
-  printf( "-y,  Change minor version number.\n" );
-  printf( "-z,  Change patch version number.\n" );
-  printf( "-l,  Specify version number digits.\n" );
-  printf( "-v,  Print program version.\n" );
-  printf( "-h,  Print this help screen.\n" );
-  printf( "-s,  Process simple version string.\n" );
-  printf( "-g,  Get version string.\n" );
-  printf( "-a,  Append version string to a file name.\n" );
-  printf( "-i,  Initialize version.\n" );
-  printf( "-n,  Specify version definition name.\n" );
-  printf( "-d,  Include modify date in version header file.\n" );
-  printf( "\n" );
+  FormatOutput( "\n" );
+  FormatOutput( "Usage: semver [option] [FILE]\n" );
+  FormatOutput( "\n" );
+  FormatOutput( "Options:\n" );
+  FormatOutput( "-x,  Change major version number.\n" );
+  FormatOutput( "-y,  Change minor version number.\n" );
+  FormatOutput( "-z,  Change patch version number.\n" );
+  FormatOutput( "-l,  Specify version number digits.\n" );
+  FormatOutput( "-v,  Print program version.\n" );
+  FormatOutput( "-h,  Print this help screen.\n" );
+  FormatOutput( "-s,  Process simple version string.\n" );
+  FormatOutput( "-g,  Get version string.\n" );
+  FormatOutput( "-a,  Append version string to a file name.\n" );
+  FormatOutput( "-i,  Initialize version.\n" );
+  FormatOutput( "-n,  Specify version definition name.\n" );
+  FormatOutput( "-d,  Include modify date in version header file.\n" );
+  FormatOutput( "\n" );
 }
 
 void GetVersion( tSetting *as, tSemverVersion *vd )
@@ -66,7 +68,7 @@ void GetVersion( tSetting *as, tSemverVersion *vd )
 
   SemVer_ConvertFromStr( vd, verstr );
 
-  printf( "Input  version: %s\n", ( char* )verstr );
+  FormatOutput( "Input  version: %s\n", ( char* )verstr );
 }
 
 int IncreaseVersion( tSetting *as, tSemverVersion *versionData )
@@ -114,7 +116,7 @@ void OutputVersion( tSetting *as, tSemverVersion *vd )
                             as->needdate );
   }
 
-  printf( "Output version: %s\n", ( char* )verstr );
+  FormatOutput( "Output version: %s\n", ( char* )verstr );
 }
 
 void AppendToFile( tSetting *as, tSemverVersion *vd )
@@ -128,7 +130,7 @@ void AppendToFile( tSetting *as, tSemverVersion *vd )
 
   FileProxy_CopyFile( as->appendarg, ( char* )filename );
 
-  printf( "New   filename: %s\n", ( char* )filename );
+  FormatOutput( "New   filename: %s\n", ( char* )filename );
 }
 
 int semverrun( int argc, char **argv )

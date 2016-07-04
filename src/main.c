@@ -1,5 +1,4 @@
-extern int semverrun( int  argc,
-                      char **argv );
+#include "run.h"
 
 int main( int argc, char **argv )
 {
