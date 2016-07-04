@@ -2,5 +2,5 @@
 
 int main( int argc, char **argv )
 {
-  return( semverrun( argc, argv ) );
+  return( Run_SemVer( argc, argv ) );
 }

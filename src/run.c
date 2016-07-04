@@ -12,18 +12,23 @@
 #include "setting.h"
 #include "fileproxy.h"
 
-#define  BUF_SIZE 128
+#define  RUN_BUF_SIZE ( 128U )
 
-int (* FormatOutput)( const char* format, ... ) = printf;
+static int ( *FormatOutput )( const char *format, ... ) = printf;
 
-void PrintVersion( void )
+void Run_SetFormatOutput(int ( *p )( const char *format, ... ))
+{
+  FormatOutput = p;
+}
+
+void Run_PrintVersion( void )
 {
   FormatOutput( "\n" );
   FormatOutput( "semver increases version number in a file %s\n", VERSION );
   FormatOutput( "\n" );
 }
 
-void PrintUsage( void )
+void Run_PrintUsage( void )
 {
   FormatOutput( "\n" );
   FormatOutput( "Usage: semver [option] [FILE]\n" );
@@ -44,9 +49,9 @@ void PrintUsage( void )
   FormatOutput( "\n" );
 }
 
-void GetVersion( tSetting *as, tSemverVersion *vd )
+void Run_GetVersion( tSetting *as, tSemverVersion *vd )
 {
-  char verstr[BUF_SIZE] = { 0 };
+  char verstr[RUN_BUF_SIZE] = { 0 };
 
   if ( as->init == 1 )
   {
@@ -71,7 +76,7 @@ void GetVersion( tSetting *as, tSemverVersion *vd )
   FormatOutput( "Input  version: %s\n", ( char* )verstr );
 }
 
-int IncreaseVersion( tSetting *as, tSemverVersion *versionData )
+int Run_IncreaseVersion( tSetting *as, tSemverVersion *versionData )
 {
   int index = as->index;
 
@@ -96,9 +101,9 @@ int IncreaseVersion( tSetting *as, tSemverVersion *versionData )
   }
 }
 
-void OutputVersion( tSetting *as, tSemverVersion *vd )
+void Run_OutputVersion( tSetting *as, tSemverVersion *vd )
 {
-  char verstr[BUF_SIZE] = { 0 };
+  char verstr[RUN_BUF_SIZE] = { 0 };
 
   SemVer_ConvertToStr( vd, verstr, as->length );
 
@@ -119,10 +124,10 @@ void OutputVersion( tSetting *as, tSemverVersion *vd )
   FormatOutput( "Output version: %s\n", ( char* )verstr );
 }
 
-void AppendToFile( tSetting *as, tSemverVersion *vd )
+void Run_AppendToFile( tSetting *as, tSemverVersion *vd )
 {
-  char verstr[BUF_SIZE]   = { 0 };
-  char filename[BUF_SIZE] = { 0 };
+  char verstr[RUN_BUF_SIZE]   = { 0 };
+  char filename[RUN_BUF_SIZE] = { 0 };
 
   SemVer_ConvertToStr( vd, verstr, as->length );
 
@@ -133,7 +138,7 @@ void AppendToFile( tSetting *as, tSemverVersion *vd )
   FormatOutput( "New   filename: %s\n", ( char* )filename );
 }
 
-int semverrun( int argc, char **argv )
+int Run_SemVer( int argc, char **argv )
 {
   tSetting       as;
   tSemverVersion vd;
@@ -144,35 +149,35 @@ int semverrun( int argc, char **argv )
 
   if ( ( as.help == 1 ) || ( as.error == 1 ) )
   {
-    PrintUsage( );
+    Run_PrintUsage( );
   }
   else if ( as.version == 1 )
   {
-    PrintVersion( );
+    Run_PrintVersion( );
   }
   else if ( as.append == 1 )
   {
-    GetVersion( &as, &vd );
-    AppendToFile( &as, &vd );
+    Run_GetVersion( &as, &vd );
+    Run_AppendToFile( &as, &vd );
   }
   else if ( as.init == 1 )
   {
-    GetVersion( &as, &vd );
-    OutputVersion( &as, &vd );
+    Run_GetVersion( &as, &vd );
+    Run_OutputVersion( &as, &vd );
   }
   else if ( as.get == 1 )
   {
-    GetVersion( &as, &vd );
+    Run_GetVersion( &as, &vd );
   }
   else if ( 0 == FileProxy_IsFileExist( as.filename ) )
   {
-    GetVersion( &as, &vd );
-    IncreaseVersion( &as, &vd );
-    OutputVersion( &as, &vd );
+    Run_GetVersion( &as, &vd );
+    Run_IncreaseVersion( &as, &vd );
+    Run_OutputVersion( &as, &vd );
   }
   else
   {
-    OutputVersion( &as, &vd );
+    Run_OutputVersion( &as, &vd );
   }
 
   return( 0 );

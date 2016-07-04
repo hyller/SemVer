@@ -4,18 +4,18 @@
 
 tSetting as;
 
-TEST_GROUP( TestParse );
+TEST_GROUP( TestSetting );
 
-TEST_SETUP( TestParse )
+TEST_SETUP( TestSetting )
 {
   Setting_Init( &as );
 }
 
-TEST_TEAR_DOWN( TestParse )
+TEST_TEAR_DOWN( TestSetting )
 {
 }
 
-TEST( TestParse, ParseAll )
+TEST( TestSetting, ParseAll )
 {
   char *testargv[] = {
     ( char* )"semver",

@@ -5,7 +5,7 @@ Travis Linux build status:[![Build Status](https://travis-ci.org/hyller/SemVer.s
 
 AppVeyor Windows build status:[![Build status](https://ci.appveyor.com/api/projects/status/26b3umg466awcd6m?svg=true)](https://ci.appveyor.com/project/hyller/semver)
 
-Coverage:[![Coverage Status](https://coveralls.io/repos/github/hyller/SemVer/badge.svg)](https://coveralls.io/github/hyller/SemVer)                    
+Coverage:[![Coverage Status](https://coveralls.io/repos/github/hyller/SemVer/badge.svg?branch=master)](https://coveralls.io/github/hyller/SemVer?branch=master)
 
 ## Context
 These steps would be done to release a software normally  

@@ -12,8 +12,8 @@
 #include "utils.h"
 #include "semver.h"
 
-#define FILEPROXY_FILE_BUF_SIZE        1024
-#define FILEPROXY_DEFAULT_VERSION_NAME "VERSION"
+#define FILEPROXY_FILE_BUF_SIZE        ( 1024U )
+#define FILEPROXY_DEFAULT_VERSION_NAME ( "VERSION" )
 
 static int FileProxy_ReadFile( char *filename, char *buf, int size )
 {

@@ -11,7 +11,7 @@ TEST_GROUP( TestRun );
 
 TEST_SETUP( TestRun )
 {
-  FormatOutput = FormatOutputSpy;
+  Run_SetFormatOutput( FormatOutputSpy );
   actualOutput = FormatOutputSpy_GetOutput( );
   FormatOutputSpy_Clear( );
 }
@@ -26,7 +26,7 @@ TEST( TestRun, TestRun1 )
                    "semver increases version number in a file 0.11.1\n"
                    "\n";
 
-  PrintVersion( );
+  Run_PrintVersion( );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
 }
@@ -51,7 +51,7 @@ TEST( TestRun, TestRun2 )
                    "-d,  Include modify date in version header file.\n"
                    "\n";
 
-  PrintUsage( );
+  Run_PrintUsage( );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
 }

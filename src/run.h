@@ -9,9 +9,10 @@
   extern "C" {
 #endif
 
-int semverrun( int  argc, char **argv );
-void PrintVersion( void );
-void PrintUsage( void );
+int Run_SemVer( int  argc, char **argv );
+void Run_PrintVersion( void );
+void Run_PrintUsage( void );
+void Run_SetFormatOutput(int ( *p )( const char *format, ... ));
 
 #ifdef __cplusplus
   }

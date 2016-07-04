@@ -20,7 +20,7 @@ OBJS_SRC    = $(DIR_OBJS)/fileproxy.o $(DIR_OBJS)/run.o $(DIR_OBJS)/semver.o
 OBJS_SRC   += $(DIR_OBJS)/setting.o $(DIR_OBJS)/utils.o
 OBJS_MAIN   = $(DIR_OBJS)/main.o
 OBJS_TEST   = $(DIR_OBJS)/TestFileProxy.o $(DIR_OBJS)/TestFileProxyRunner.o
-OBJS_TEST  += $(DIR_OBJS)/TestParse.o $(DIR_OBJS)/TestParseRunner.o
+OBJS_TEST  += $(DIR_OBJS)/TestSetting.o $(DIR_OBJS)/TestSettingRunner.o
 OBJS_TEST  += $(DIR_OBJS)/TestSemVer.o $(DIR_OBJS)/TestSemVerRunner.o
 OBJS_TEST  += $(DIR_OBJS)/TestUtils.o $(DIR_OBJS)/TestUtilsRunner.o
 OBJS_TEST  += $(DIR_OBJS)/TestRun.o $(DIR_OBJS)/TestRunRunner.o
@@ -45,7 +45,7 @@ $(EXEC_NAME_TEST): LDLIBS += -lgcov
 $(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)    
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 	rm -f $(DIR_OBJS)/*.gcda
-	./$(EXEC_NAME_TEST) -v
+	./$(EXEC_NAME_TEST)
 
 $(DIR_OBJS)/%o: %c
 	@mkdir -p $(DIR_OBJS)

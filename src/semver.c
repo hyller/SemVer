@@ -5,11 +5,11 @@
 #include "semver.h"
 #include "utils.h"
 
-#define FMT_STR_SIMPLE      "%d.%d.%d"
-#define FMT_STR_SIMPLE2     "%02d.%02d.%02d"
-#define FMT_STR_SIMPLE3     "%03d.%03d.%03d"
-#define INITIAL_VERSION_STR "0.1.0"
-#define BUF_SIZE            128
+#define SEMVER_FMT_STR_SIMPLE      ( "%d.%d.%d" )
+#define SEMVER_FMT_STR_SIMPLE2     ( "%02d.%02d.%02d" )
+#define SEMVER_FMT_STR_SIMPLE3     ( "%03d.%03d.%03d" )
+#define SEMVER_INITIAL_VERSION_STR ( "0.1.0" )
+#define SEMVER_BUF_SIZE            ( 128U )
 
 static int SemVer_IsValidPos( int len, int lpos, int rpos )
 {
@@ -45,7 +45,7 @@ int SemVer_ConvertFromStr( tSemverVersion *me, char *str )
   int  lpos;
   int  rpos;
   int  len;
-  char strtemp[BUF_SIZE] = { 0 };
+  char strtemp[SEMVER_BUF_SIZE] = { 0 };
 
   strcpy( strtemp, str );
   len = ( int )strlen( strtemp );
@@ -75,15 +75,27 @@ int SemVer_ConvertToStr( tSemverVersion *me, char *str, int length )
 {
   if ( length == 2 )
   {
-    sprintf( str, ( char* )FMT_STR_SIMPLE2, me->major, me->minor, ( int )me->patch );
+    sprintf( str,
+             ( char* )SEMVER_FMT_STR_SIMPLE2,
+             me->major,
+             me->minor,
+             ( int )me->patch );
   }
   else if ( length == 3 )
   {
-    sprintf( str, ( char* )FMT_STR_SIMPLE3, me->major, me->minor, ( int )me->patch );
+    sprintf( str,
+             ( char* )SEMVER_FMT_STR_SIMPLE3,
+             me->major,
+             me->minor,
+             ( int )me->patch );
   }
   else
   {
-    sprintf( str, ( char* )FMT_STR_SIMPLE, me->major, me->minor, ( int )me->patch );
+    sprintf( str,
+             ( char* )SEMVER_FMT_STR_SIMPLE,
+             me->major,
+             me->minor,
+             ( int )me->patch );
   }
   return( 0 );
 }
