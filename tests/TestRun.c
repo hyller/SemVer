@@ -1,9 +1,10 @@
 #include <string.h>
+#include <unistd.h>
 #include "unity_fixture.h"
 #include "run.h"
 #include "FormatOutputSpy.h"
+#include "fileproxy.h"
 
-extern int ( *FormatOutput )( const char *format, ... );
 static const char *expectedOutput;
 static const char *actualOutput;
 
@@ -14,24 +15,33 @@ TEST_SETUP( TestRun )
   Run_SetFormatOutput( FormatOutputSpy );
   actualOutput = FormatOutputSpy_GetOutput( );
   FormatOutputSpy_Clear( );
+
+  /// Reset to 1 so that getopt can work again
+  optind = 1; 
 }
 
 TEST_TEAR_DOWN( TestRun )
 {
+  Run_SetFormatOutput( printf );
 }
 
-TEST( TestRun, TestRun1 )
+TEST( TestRun, TestPrintVersion )
 {
   expectedOutput = "\n"
                    "semver increases version number in a file 0.11.1\n"
                    "\n";
+  char *testargv[] = {
+    ( char* )"semver.exe",
+    ( char* )"-v"
+  };
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  Run_PrintVersion( );
+  Run_SemVer(testargc, testargv);
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
 }
 
-TEST( TestRun, TestRun2 )
+TEST( TestRun, TestPrintUsage )
 {
   expectedOutput = "\n"
                    "Usage: semver [option] [FILE]\n"
@@ -51,22 +61,61 @@ TEST( TestRun, TestRun2 )
                    "-d,  Include modify date in version header file.\n"
                    "\n";
 
-  Run_PrintUsage( );
+  char *testargv[] = {
+    ( char* )"semver.exe",
+    ( char* )"-h"
+  };
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
+
+  Run_SemVer(testargc, testargv);
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
 }
 
 TEST( TestRun, TestRun3 )
 {
-  TEST_ASSERT_TRUE( 1 );
+  expectedOutput = "Input  version: 0.1.0\n"
+                   "Output version: 0.1.0\n";
+
+  char *testargv[] = {
+    "semver.exe",
+    "-i0.1.0",
+    "version.h"
+  };
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
+
+  Run_SemVer(testargc, testargv);
+
+  /// Clear generated file
+  remove( "version.h" ); 
+
+  TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );  
 }
 
 TEST( TestRun, TestRun4 )
 {
-  TEST_ASSERT_TRUE( 1 );
+  expectedOutput = "Input  version: 0.1.0\n"
+                   "Output version: 0.2.0\n";
+
+  char *testargv[] = {
+    "semver.exe",
+    "version.h"
+  };
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
+
+  /// Create version.h and initial version is 0.1.0
+  FileProxy_WriteVersion("version.h", "0.1.0", 0, 0); 
+
+  /// Increase version to 0.2.0
+  Run_SemVer(testargc, testargv);
+
+  /// Clear generated file
+  remove( "version.h" );
+  
+  TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput ); 
 }
 
 TEST( TestRun, TestRun5 )
 {
-  TEST_ASSERT_TRUE( 1 );
+  TEST_ASSERT_TRUE( 1 ); 
 }

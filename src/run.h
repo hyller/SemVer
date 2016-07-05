@@ -10,8 +10,6 @@
 #endif
 
 int Run_SemVer( int  argc, char **argv );
-void Run_PrintVersion( void );
-void Run_PrintUsage( void );
 void Run_SetFormatOutput(int ( *p )( const char *format, ... ));
 
 #ifdef __cplusplus

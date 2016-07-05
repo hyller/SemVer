@@ -1,4 +1,5 @@
 #include <string.h>
+#include <unistd.h>
 #include "unity_fixture.h"
 #include "setting.h"
 
@@ -9,6 +10,7 @@ TEST_GROUP( TestSetting );
 TEST_SETUP( TestSetting )
 {
   Setting_Init( &as );
+  optind = 1; // Reset to 1 so that getopt can work again
 }
 
 TEST_TEAR_DOWN( TestSetting )

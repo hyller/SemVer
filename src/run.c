@@ -16,19 +16,14 @@
 
 static int ( *FormatOutput )( const char *format, ... ) = printf;
 
-void Run_SetFormatOutput(int ( *p )( const char *format, ... ))
-{
-  FormatOutput = p;
-}
-
-void Run_PrintVersion( void )
+static void Run_PrintVersion( void )
 {
   FormatOutput( "\n" );
   FormatOutput( "semver increases version number in a file %s\n", VERSION );
   FormatOutput( "\n" );
 }
 
-void Run_PrintUsage( void )
+static void Run_PrintUsage( void )
 {
   FormatOutput( "\n" );
   FormatOutput( "Usage: semver [option] [FILE]\n" );
@@ -49,7 +44,7 @@ void Run_PrintUsage( void )
   FormatOutput( "\n" );
 }
 
-void Run_GetVersion( tSetting *as, tSemverVersion *vd )
+static void Run_GetVersion( tSetting *as, tSemverVersion *vd )
 {
   char verstr[RUN_BUF_SIZE] = { 0 };
 
@@ -76,7 +71,7 @@ void Run_GetVersion( tSetting *as, tSemverVersion *vd )
   FormatOutput( "Input  version: %s\n", ( char* )verstr );
 }
 
-int Run_IncreaseVersion( tSetting *as, tSemverVersion *versionData )
+static int Run_IncreaseVersion( tSetting *as, tSemverVersion *versionData )
 {
   int index = as->index;
 
@@ -101,7 +96,7 @@ int Run_IncreaseVersion( tSetting *as, tSemverVersion *versionData )
   }
 }
 
-void Run_OutputVersion( tSetting *as, tSemverVersion *vd )
+static void Run_OutputVersion( tSetting *as, tSemverVersion *vd )
 {
   char verstr[RUN_BUF_SIZE] = { 0 };
 
@@ -124,7 +119,7 @@ void Run_OutputVersion( tSetting *as, tSemverVersion *vd )
   FormatOutput( "Output version: %s\n", ( char* )verstr );
 }
 
-void Run_AppendToFile( tSetting *as, tSemverVersion *vd )
+static void Run_AppendToFile( tSetting *as, tSemverVersion *vd )
 {
   char verstr[RUN_BUF_SIZE]   = { 0 };
   char filename[RUN_BUF_SIZE] = { 0 };
@@ -136,6 +131,11 @@ void Run_AppendToFile( tSetting *as, tSemverVersion *vd )
   FileProxy_CopyFile( as->appendarg, ( char* )filename );
 
   FormatOutput( "New   filename: %s\n", ( char* )filename );
+}
+
+void Run_SetFormatOutput(int ( *p )( const char *format, ... ))
+{
+  FormatOutput = p;
 }
 
 int Run_SemVer( int argc, char **argv )
