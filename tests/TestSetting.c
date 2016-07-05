@@ -1,5 +1,6 @@
 #include <string.h>
 #include <unistd.h>
+#include <getopt.h>
 #include "unity_fixture.h"
 #include "setting.h"
 
