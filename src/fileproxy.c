@@ -12,10 +12,10 @@
 #include "utils.h"
 #include "semver.h"
 
-#define FILEPROXY_FILE_BUF_SIZE        ( 1024U )
+
 #define FILEPROXY_DEFAULT_VERSION_NAME ( "VERSION" )
 
-static int FileProxy_ReadFile( char *filename, char *buf, int size )
+int FileProxy_ReadFile( char *filename, char *buf, int size )
 {
   FILE *ifp;
 
@@ -34,7 +34,7 @@ static int FileProxy_ReadFile( char *filename, char *buf, int size )
   return( 0 );
 }
 
-static int FileProxy_WriteFile( char *filename, char *buf, int size )
+int FileProxy_WriteFile( char *filename, char *buf, int size )
 {
   FILE *ifp;
 

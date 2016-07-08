@@ -17,8 +17,9 @@ TEST_SETUP( TestRun )
   actualOutput = FormatOutputSpy_GetOutput( );
   FormatOutputSpy_Clear( );
 
-  /// Reset to 1 so that getopt can work again
-  optind = 1; 
+  optind = 1; // Reset to 1 so that getopt can work again
+  opterr = 1;
+  optopt = '?';
 }
 
 TEST_TEAR_DOWN( TestRun )
@@ -73,7 +74,7 @@ TEST( TestRun, TestPrintUsage )
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
 }
 
-TEST( TestRun, TestRun3 )
+TEST( TestRun, InitVersion )
 {
   expectedOutput = "Input  version: 0.1.0\n"
                    "Output version: 0.1.0\n";
@@ -93,7 +94,56 @@ TEST( TestRun, TestRun3 )
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );  
 }
 
-TEST( TestRun, TestRun4 )
+TEST( TestRun, GetVersion )
+{
+  expectedOutput = "Input  version: 0.1.0\n";
+
+  char *testargv[] = {
+    "semver.exe",
+    "-g",
+    "version.h"
+  };
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
+
+  /// Create version.h and initial version is 0.1.0
+  FileProxy_WriteVersion("version.h", "0.1.0", 0, 0); 
+
+  /// Get version
+  Run_SemVer(testargc, testargv);
+
+  /// Clear generated file
+  remove( "version.h" ); 
+
+  TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );  
+}
+
+TEST( TestRun, AppendFile )
+{
+  expectedOutput = "Input  version: 0.1.0\n"
+                   "New   filename: version_0.1.0.h\n";
+
+  char *testargv[] = {
+    "semver.exe",
+    "-aversion.h",
+    "version.h"
+  };
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
+
+  /// Create version.h and initial version is 0.1.0
+  FileProxy_WriteVersion("version.h", "0.1.0", 0, 0); 
+
+  /// Get version
+  Run_SemVer(testargc, testargv);
+
+  TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );  
+  TEST_ASSERT_TRUE(!FileProxy_IsFileExist("version_0.1.0.h"));
+
+  /// Clear generated file
+  remove( "version.h" ); 
+  remove( "version_0.1.0.h" ); 
+}
+
+TEST( TestRun, IncreaseMinor )
 {
   expectedOutput = "Input  version: 0.1.0\n"
                    "Output version: 0.2.0\n";
@@ -116,7 +166,7 @@ TEST( TestRun, TestRun4 )
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput ); 
 }
 
-TEST( TestRun, TestRun5 )
+TEST( TestRun, IncreaseMajor )
 {
-  TEST_ASSERT_TRUE( 1 ); 
+   TEST_ASSERT_TRUE( 1 ); 
 }

@@ -6,6 +6,16 @@
   {
 #endif
 
+#define FILEPROXY_FILE_BUF_SIZE ( 1024U )
+
+int FileProxy_ReadFile( char *filename,
+                        char *buf,
+                        int size );
+
+int FileProxy_WriteFile( char *filename,
+                         char *buf,
+                         int size );
+
 int FileProxy_IsFileExist( char *filename );
 
 int FileProxy_ReadVersion( char *filename,
@@ -15,14 +25,14 @@ int FileProxy_ReadVersion( char *filename,
 int FileProxy_WriteVersion( char *filename,
                             char *verstr,
                             char *vername,
-                            int  needdate );
+                            int needdate );
 
 int FileProxy_ReadVersionSimple( char *filename,
                                  char *verstr );
 
 int FileProxy_WriteVersionSimple( char *filename,
                                   char *verstr,
-                                  int  needdate );
+                                  int needdate );
 
 int FileProxy_CopyFile( char *filename,
                         char *newname );

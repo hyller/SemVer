@@ -45,7 +45,7 @@ $(EXEC_NAME_TEST): LDLIBS += -lgcov
 $(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)    
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 	rm -f $(DIR_OBJS)/*.gcda
-	./$(EXEC_NAME_TEST)
+	./$(EXEC_NAME_TEST) -v
 
 $(DIR_OBJS)/%o: %c
 	@mkdir -p $(DIR_OBJS)

@@ -11,24 +11,24 @@
 #define SEMVER_INITIAL_VERSION_STR ( "0.1.0" )
 #define SEMVER_BUF_SIZE            ( 128U )
 
-static int SemVer_IsValidPos( int len, int lpos, int rpos )
+static int SemVer_ValidPos( int len, int lpos, int rpos )
 {
   if ( ( lpos == 0 ) || ( rpos == 0 ) )
   {
-    return( 0 );
+    return( 1 );
   }
 
   if ( ( lpos == 1 ) || ( rpos == len ) )
   {
-    return( 0 );
+    return( 1 );
   }
 
   if ( ( lpos == rpos ) || ( ( lpos + 1 ) == rpos ) )
   {
-    return( 0 );
+    return( 1 );
   }
 
-  return( 1 );
+  return( 0 );
 }
 
 int SemVer_Init( tSemverVersion *me )
@@ -52,7 +52,7 @@ int SemVer_ConvertFromStr( tSemverVersion *me, char *str )
 
   lpos = Utils_StrChr( strtemp, 1, len, '.' );
   rpos = Utils_StrRchr( strtemp, 1, len, '.' );
-  if ( SemVer_IsValidPos( len, lpos, rpos ) )
+  if ( 0 == SemVer_ValidPos( len, lpos, rpos ) )
   {
     strtemp[lpos - 1] = 0;
     strtemp[rpos - 1] = 0;

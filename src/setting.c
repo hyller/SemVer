@@ -55,10 +55,6 @@ int Setting_Parse( tSetting *as, int argc, char **argv )
         {
           as->length = atoi( optarg );
         }
-        else
-        {
-          as->length = 0;
-        }
         break;
 
       case 'a':
@@ -79,10 +75,6 @@ int Setting_Parse( tSetting *as, int argc, char **argv )
         as->version = 1;
         break;
 
-      case 'q':
-        as->quiet = 1;
-        break;
-
       case 'g':
         as->get = 1;
         break;
@@ -93,12 +85,6 @@ int Setting_Parse( tSetting *as, int argc, char **argv )
 
       case '?':
         as->help = 1;
-        return( 1 );
-
-      default:
-        as->error = 1;
-        return( 1 );
-
         break;
     }
   }

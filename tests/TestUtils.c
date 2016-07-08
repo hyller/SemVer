@@ -41,6 +41,39 @@ TEST( TestUtils, TestStrFind )
   TEST_ASSERT_EQUAL_INT( 6, ret );
 }
 
+TEST( TestUtils, TestStrFindStr0 )
+{
+  char str[]  = "hellostrfind";
+  char find[] = "";
+  int  ret;
+
+  ret = Utils_StrFind( str, 1, strlen( str ), find );
+
+  TEST_ASSERT_EQUAL_INT( 1, ret );
+}
+
+TEST( TestUtils, TestStrFindStr1 )
+{
+  char str[]  = "hellostrfind";
+  char find[] = "s";
+  int  ret;
+
+  ret = Utils_StrFind( str, 1, strlen( str ), find );
+
+  TEST_ASSERT_EQUAL_INT( 6, ret );
+}
+
+TEST( TestUtils, TestStrFindNoStr )
+{
+  char str[]  = "hellostrfind";
+  char find[] = "xxx";
+  int  ret;
+
+  ret = Utils_StrFind( str, 1, strlen( str ), find );
+
+  TEST_ASSERT_EQUAL_INT( 0, ret );
+}
+
 TEST( TestUtils, TestStrChr )
 {
   char str[] = "hellostrfind";

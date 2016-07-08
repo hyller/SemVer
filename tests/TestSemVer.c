@@ -15,17 +15,74 @@ TEST( TestSemVer, ConvertFromStr )
 {
   tSemverVersion ver;
   char           str[10] = "1.2.3";
+  int ret;
 
   ver.major = 0;
   ver.minor = 0;
   ver.patch = 0;
 
-  SemVer_ConvertFromStr( &ver, str );
+  ret = SemVer_ConvertFromStr( &ver, str );
 
   TEST_ASSERT_EQUAL_INT( 1, ver.major );
   TEST_ASSERT_EQUAL_INT( 2, ver.minor );
   TEST_ASSERT_EQUAL_INT( 3, ver.patch );
+  TEST_ASSERT_EQUAL_INT( 0, ret );
 }
+
+TEST( TestSemVer, ConvertFromStrInvalid )
+{
+  tSemverVersion ver;
+  char           str[10] = "1.2";
+  int ret;
+
+  ver.major = 0;
+  ver.minor = 0;
+  ver.patch = 0;
+
+  ret = SemVer_ConvertFromStr( &ver, str );
+
+  TEST_ASSERT_EQUAL_INT( 0, ver.major );
+  TEST_ASSERT_EQUAL_INT( 1, ver.minor );
+  TEST_ASSERT_EQUAL_INT( 0, ver.patch );
+  TEST_ASSERT_EQUAL_INT( 1, ret );
+}
+
+TEST( TestSemVer, ConvertFromStrInvalid2 )
+{
+  tSemverVersion ver;
+  char           str[10] = ".1.2.3.";
+  int ret;
+
+  ver.major = 0;
+  ver.minor = 0;
+  ver.patch = 0;
+
+  ret = SemVer_ConvertFromStr( &ver, str );
+
+  TEST_ASSERT_EQUAL_INT( 0, ver.major );
+  TEST_ASSERT_EQUAL_INT( 1, ver.minor );
+  TEST_ASSERT_EQUAL_INT( 0, ver.patch );
+  TEST_ASSERT_EQUAL_INT( 1, ret );
+}
+
+TEST( TestSemVer, ConvertFromStrInvalid3 )
+{
+  tSemverVersion ver;
+  char           str[10] = "123";
+  int ret;
+
+  ver.major = 0;
+  ver.minor = 0;
+  ver.patch = 0;
+
+  ret = SemVer_ConvertFromStr( &ver, str );
+
+  TEST_ASSERT_EQUAL_INT( 0, ver.major );
+  TEST_ASSERT_EQUAL_INT( 1, ver.minor );
+  TEST_ASSERT_EQUAL_INT( 0, ver.patch );
+  TEST_ASSERT_EQUAL_INT( 1, ret );
+}
+
 
 TEST( TestSemVer, ConvertToStr )
 {
