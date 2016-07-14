@@ -74,26 +74,27 @@ static void Run_GetVersion( tSetting *as, tSemverVersion *vd )
 static int Run_IncreaseVersion( tSetting *as, tSemverVersion *versionData )
 {
   int index = as->index;
+  int ret   = 1;
 
   switch ( index )
   {
     case 0:
       SemVer_IncreasePatch( versionData );
-      return( 0 );
+      ret = 0;
+      break;
 
     case 1:
       SemVer_IncreaseMinor( versionData );
-      return( 0 );
+      ret = 0;
+      break;
 
     case 2:
       SemVer_IncreaseMajor( versionData );
-      return( 0 );
-
-    default:
-      return( 1 );
-
+      ret = 0;
       break;
   }
+
+  return( ret );
 }
 
 static void Run_OutputVersion( tSetting *as, tSemverVersion *vd )
@@ -133,7 +134,7 @@ static void Run_AppendToFile( tSetting *as, tSemverVersion *vd )
   FormatOutput( "New   filename: %s\n", ( char* )filename );
 }
 
-void Run_SetFormatOutput(int ( *p )( const char *format, ... ))
+void Run_SetFormatOutput( int ( *p )( const char *format, ... ) )
 {
   FormatOutput = p;
 }
@@ -173,10 +174,6 @@ int Run_SemVer( int argc, char **argv )
   {
     Run_GetVersion( &as, &vd );
     Run_IncreaseVersion( &as, &vd );
-    Run_OutputVersion( &as, &vd );
-  }
-  else
-  {
     Run_OutputVersion( &as, &vd );
   }
 

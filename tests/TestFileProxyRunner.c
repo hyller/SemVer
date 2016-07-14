@@ -4,4 +4,7 @@ TEST_GROUP_RUNNER( TestFileProxy )
 {
   RUN_TEST_CASE( TestFileProxy, SimpleVersion );
   RUN_TEST_CASE( TestFileProxy, FullVersionName );
+  RUN_TEST_CASE( TestFileProxy, ReadFileNull );
+  RUN_TEST_CASE( TestFileProxy, WriteFileNull );
+  RUN_TEST_CASE( TestFileProxy, CopyFileNull );
 }

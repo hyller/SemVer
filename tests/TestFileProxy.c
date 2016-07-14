@@ -36,3 +36,33 @@ TEST( TestFileProxy, FullVersionName )
 
   remove( "Full.Write.Name" ); ///< Clear generated file
 }
+
+TEST( TestFileProxy, ReadFileNull )
+{
+  char buf[FILEPROXY_FILE_BUF_SIZE]  = { 0 };
+  int ret;
+
+  ret = FileProxy_ReadFile( NULL, buf, FILEPROXY_FILE_BUF_SIZE );
+
+  TEST_ASSERT_EQUAL_INT( 1, ret );
+}
+
+TEST( TestFileProxy, WriteFileNull )
+{
+  char buf[FILEPROXY_FILE_BUF_SIZE]  = { 0 };
+  int ret;
+
+  ret = FileProxy_WriteFile( NULL, buf, FILEPROXY_FILE_BUF_SIZE );
+
+  TEST_ASSERT_EQUAL_INT( 1, ret );
+}
+
+TEST( TestFileProxy, CopyFileNull )
+{
+  int ret;
+  
+  ret = FileProxy_CopyFile( NULL, NULL );
+
+  TEST_ASSERT_EQUAL_INT( 1, ret );
+}
+

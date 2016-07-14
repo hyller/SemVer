@@ -12,22 +12,27 @@
 #include "utils.h"
 #include "semver.h"
 
-
 #define FILEPROXY_DEFAULT_VERSION_NAME ( "VERSION" )
 
 int FileProxy_ReadFile( char *filename, char *buf, int size )
 {
   FILE *ifp;
+  int  ch;
+  int  count = 0;
 
-  ifp = fopen( filename, "r+" );
-
-  if ( ifp == NULL )
+  if ( ( ifp = fopen( filename, "r" ) ) == NULL )
   {
-    printf( "Can't open file\n" );
     return( 1 );
   }
 
-  fread( buf, ( size_t )size, 1, ifp );
+  while ( ( ch = fgetc( ifp ) ) != EOF )
+  {
+    if ( count < size )
+    {
+      buf[count] = ch;
+      count++;
+    }
+  }
 
   fclose( ifp );
 
@@ -38,13 +43,13 @@ int FileProxy_WriteFile( char *filename, char *buf, int size )
 {
   FILE *ifp;
 
-  if ( ( ifp = fopen( filename, "w+" ) ) == NULL )
+  if ( ( ifp = fopen( filename, "w" ) ) == NULL )
   {
-    printf( "Cannot open file.\n" );
     return( 1 );
   }
 
-  fwrite( buf, ( size_t )size, 1, ifp );
+  fprintf( ifp, "%s", buf );
+
   fclose( ifp );
 
   return( 0 );
@@ -113,7 +118,7 @@ int FileProxy_WriteVersion( char *filename, char *verstr,
 
   timestr = FileProxy_GetDay( );
 
-  len += sprintf( &buf[len], "/* This file is managed by semver %s, Don't modify manually */\n", VERSION );
+  len += sprintf( &buf[len], "/* This file is managed by semver, Don't modify manually */\n" );
   len += sprintf( &buf[len], "/* Visit https://github.com/hyller/SemVer for more information */\n" );
   len += sprintf( &buf[len], "#ifndef %s_H\n", vername );
   len += sprintf( &buf[len], "#define %s_H\n", vername );
