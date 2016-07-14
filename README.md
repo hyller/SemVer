@@ -21,13 +21,15 @@ These steps would be done to release a software normally
 **SemVer** creates version head file, increases version and appends the version to a file name.  
 The version format defined in [semver.org](http://semver.org).  
 
-## Build from code
+## Build from Code
 
-There are prebuild binaries in folder bin. You can try to use them directly. .exe is for windows and .out is for linux.
+There are prebuild binaries for windows in folder bin. You can try to use them directly.
 
-If you want to build it from code. GCC is required to be installed. Mingw, Cygwin or native Linux is workable.
+If you want to build it from code. Compile tool is GCC. 
+Mingw or Cygwin need be installed on windows.
+GCC need be installed on Linux.
 
-Run 'make' to build the executable binary. Run 'make check' to run the test.
+Run 'make' to build the executable binary.
 
 ## Usage
 
