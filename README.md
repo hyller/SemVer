@@ -1,5 +1,5 @@
 ## SemVer
-Manage Semantic Version String
+Semantic Version String Management Utility.
 
 Travis Linux build status:[![Build Status](https://travis-ci.org/hyller/SemVer.svg?branch=master)](https://travis-ci.org/hyller/SemVer)
 

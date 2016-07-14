@@ -1,6 +1,7 @@
 [x.x.x]
 -- add semverenv.bat script
 -- Generate major, minor, patch number in version file
+-- Achieve 100% unit test coverage
 
 [0.11.1]
 -- Fix issue: there would be extra gcov information under linux
