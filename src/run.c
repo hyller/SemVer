@@ -44,7 +44,7 @@ static void Run_PrintUsage( void )
   FormatOutput( "\n" );
 }
 
-static void Run_GetVersion( tSetting *as, tSemverVersion *vd )
+static void Run_GetVersion( tSetting *as, tSemver *vd )
 {
   char verstr[RUN_BUF_SIZE] = { 0 };
 
@@ -56,22 +56,22 @@ static void Run_GetVersion( tSetting *as, tSemverVersion *vd )
   {
     if ( as->simple == 1 )
     {
-      FileProxy_ReadVersionSimple( as->filename, ( char* )verstr );
+      FileProxy_ReadVersionSimple( as->filename, verstr );
     }
     else
     {
       FileProxy_ReadVersion( as->filename,
-                             ( char* )verstr,
-                             ( char* )as->vername );
+                             verstr,
+                             as->vername );
     }
   }
 
-  SemVer_ConvertFromStr( vd, verstr );
+  SemVer_InitByStrFieldlen( vd, verstr, as->length );
 
-  FormatOutput( "Input  version: %s\n", ( char* )verstr );
+  FormatOutput( "Input  version: %s\n", vd->str );
 }
 
-static int Run_IncreaseVersion( tSetting *as, tSemverVersion *versionData )
+static int Run_BumpVersion( tSetting *as, tSemver *versionData )
 {
   int index = as->index;
   int ret   = 1;
@@ -79,17 +79,17 @@ static int Run_IncreaseVersion( tSetting *as, tSemverVersion *versionData )
   switch ( index )
   {
     case 0:
-      SemVer_IncreasePatch( versionData );
+      SemVer_BumpPatch( versionData );
       ret = 0;
       break;
 
     case 1:
-      SemVer_IncreaseMinor( versionData );
+      SemVer_BumpMinor( versionData );
       ret = 0;
       break;
 
     case 2:
-      SemVer_IncreaseMajor( versionData );
+      SemVer_BumpMajor( versionData );
       ret = 0;
       break;
   }
@@ -97,41 +97,34 @@ static int Run_IncreaseVersion( tSetting *as, tSemverVersion *versionData )
   return( ret );
 }
 
-static void Run_OutputVersion( tSetting *as, tSemverVersion *vd )
+static void Run_OutputVersion( tSetting *as, tSemver *vd )
 {
-  char verstr[RUN_BUF_SIZE] = { 0 };
-
-  SemVer_ConvertToStr( vd, verstr, as->length );
-
   if ( as->simple == 1 )
   {
-    FileProxy_WriteVersionSimple( ( char* )as->filename,
-                                  ( char* )verstr,
+    FileProxy_WriteVersionSimple( as->filename,
+                                  vd->str,
                                   as->needdate );
   }
   else
   {
-    FileProxy_WriteVersion( ( char* )as->filename,
-                            ( char* )verstr,
-                            ( char* )as->vername,
+    FileProxy_WriteVersion( as->filename,
+                            vd->str,
+                            as->vername,
                             as->needdate );
   }
 
-  FormatOutput( "Output version: %s\n", ( char* )verstr );
+  FormatOutput( "Output version: %s\n", vd->str );
 }
 
-static void Run_AppendToFile( tSetting *as, tSemverVersion *vd )
+static void Run_CopyFile( tSetting *as, tSemver *vd )
 {
-  char verstr[RUN_BUF_SIZE]   = { 0 };
   char filename[RUN_BUF_SIZE] = { 0 };
 
-  SemVer_ConvertToStr( vd, verstr, as->length );
+  Utils_StrAppend( as->appendarg, vd->str, filename );
 
-  Utils_StrAppend( as->appendarg, ( char* )verstr, filename );
+  FileProxy_CopyFile( as->appendarg, filename );
 
-  FileProxy_CopyFile( as->appendarg, ( char* )filename );
-
-  FormatOutput( "New   filename: %s\n", ( char* )filename );
+  FormatOutput( "New   filename: %s\n", filename );
 }
 
 void Run_SetFormatOutput( int ( *p )( const char *format, ... ) )
@@ -141,8 +134,8 @@ void Run_SetFormatOutput( int ( *p )( const char *format, ... ) )
 
 int Run_SemVer( int argc, char **argv )
 {
-  tSetting       as;
-  tSemverVersion vd;
+  tSetting as;
+  tSemver  vd;
 
   SemVer_Init( &vd );
   Setting_Init( &as );
@@ -159,7 +152,7 @@ int Run_SemVer( int argc, char **argv )
   else if ( as.append == 1 )
   {
     Run_GetVersion( &as, &vd );
-    Run_AppendToFile( &as, &vd );
+    Run_CopyFile( &as, &vd );
   }
   else if ( as.init == 1 )
   {
@@ -170,10 +163,10 @@ int Run_SemVer( int argc, char **argv )
   {
     Run_GetVersion( &as, &vd );
   }
-  else if ( 0 == FileProxy_IsFileExist( as.filename ) )
+  else if ( 0 == FileProxy_AccessFile( as.filename ) )
   {
     Run_GetVersion( &as, &vd );
-    Run_IncreaseVersion( &as, &vd );
+    Run_BumpVersion( &as, &vd );
     Run_OutputVersion( &as, &vd );
   }
 

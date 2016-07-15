@@ -2,16 +2,15 @@
 
 TEST_GROUP_RUNNER( TestSemVer )
 {
-  RUN_TEST_CASE( TestSemVer, ConvertFromStr );
-  RUN_TEST_CASE( TestSemVer, ConvertFromStrInvalid );
-  RUN_TEST_CASE( TestSemVer, ConvertFromStrInvalid2 );
-  RUN_TEST_CASE( TestSemVer, ConvertFromStrInvalid3 );
-  RUN_TEST_CASE( TestSemVer, ConvertToStr );
-  RUN_TEST_CASE( TestSemVer, ConvertToStr2 );
-  RUN_TEST_CASE( TestSemVer, ConvertToStr3 );
-  RUN_TEST_CASE( TestSemVer, Increase255 );
+  RUN_TEST_CASE( TestSemVer, InitByStrInvalid );
+  RUN_TEST_CASE( TestSemVer, InitByStrInvalid2 );
+  RUN_TEST_CASE( TestSemVer, InitByStrInvalid3 );
+  RUN_TEST_CASE( TestSemVer, InitByStr );
+  RUN_TEST_CASE( TestSemVer, InitByStr2 );
+  RUN_TEST_CASE( TestSemVer, InitByStr3 );
   RUN_TEST_CASE( TestSemVer, SemVerInit );
-  RUN_TEST_CASE( TestSemVer, SemVerIncreaseMajor )
-  RUN_TEST_CASE( TestSemVer, SemVerIncreaseMinor )
-  RUN_TEST_CASE( TestSemVer, SemVerIncreasePatch )
+  RUN_TEST_CASE( TestSemVer, SemVerBumpMajor );
+  RUN_TEST_CASE( TestSemVer, SemVerBumpMinor );
+  RUN_TEST_CASE( TestSemVer, SemVerBumpPatch );
+  RUN_TEST_CASE( TestSemVer, SemVerBumpPatch255 );
 }

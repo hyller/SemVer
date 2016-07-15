@@ -91,7 +91,7 @@ int Setting_Parse( tSetting *as, int argc, char **argv )
 
   if ( optind < argc )
   {
-    strcpy( ( char* )as->filename, argv[optind] );
+    strcpy( as->filename, argv[optind] );
   }
 
   return( 0 );

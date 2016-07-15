@@ -121,7 +121,7 @@ TEST( TestSetting, ParseAll3 )
 TEST( TestSetting, NoArgv )
 {
   char *testargv[] = {
-    ( char* )"semver",
+    "semver",
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 

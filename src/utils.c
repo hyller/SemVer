@@ -6,7 +6,7 @@
 #define Utils_Idx( i, len )      ( ( i ) <= 0 ? ( i ) + ( len ) : ( i ) - 1 )
 #define Utils_Convert( s, i, j ) do {\
     int len;\
-    len = ( int )strlen( s );\
+    len = strlen( s );\
     i   = Utils_Idx( i, len );\
     j   = Utils_Idx( j, len );\
     if ( i > j ) { int t = i; i = j; j = t; }\
@@ -27,11 +27,11 @@ void Utils_StrAppend( char *oldname, char *append, char *newname )
     memcpy( prefix, oldname, ( unsigned int )pos - 1 );
     memcpy( sufix, &oldname[pos], ( unsigned int )( ( int )len - pos ) );
 
-    sprintf( newname, "%s_%s.%s", prefix, ( char* )append, sufix );
+    sprintf( newname, "%s_%s.%s", prefix, append, sufix );
   }
   else
   {
-    sprintf( newname, "%s_%s", oldname, ( char* )append );
+    sprintf( newname, "%s_%s", oldname, append );
   }
 }
 
@@ -85,7 +85,7 @@ int Utils_StrFind( const char *s, int i, int j, const char *str )
   {
     for (; i + len2 <= j; i++ )
     {
-      if ( ( strncmp( &s[i], str, ( size_t )len2 ) == 0 ) )
+      if ( ( strncmp( &s[i], str, len2 ) == 0 ) )
       {
         return( i + 1 );
       }

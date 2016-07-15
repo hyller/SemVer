@@ -13,4 +13,6 @@ TEST_GROUP_RUNNER( TestRun )
   RUN_TEST_CASE( TestRun, IncreaseMinorSimple );
   RUN_TEST_CASE( TestRun, IncreaseMinorSimpleDate );
   RUN_TEST_CASE( TestRun, IncreaseMajorDate );
+  RUN_TEST_CASE( TestRun, FieldLen2 );
+  RUN_TEST_CASE( TestRun, FieldLen3 );
 }

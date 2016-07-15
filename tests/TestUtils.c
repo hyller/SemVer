@@ -16,7 +16,7 @@ TEST( TestUtils, ChangeFileName )
 {
   char name[128];
 
-  Utils_StrAppend( ( char* )"mytest.hex", ( char* )"0.1.0", name );
+  Utils_StrAppend( "mytest.hex", "0.1.0", name );
 
   TEST_ASSERT_EQUAL_STRING( "mytest_0.1.0.hex", name );
 }
@@ -25,7 +25,7 @@ TEST( TestUtils, NoSuffix )
 {
   char name[128];
 
-  Utils_StrAppend( ( char* )"mytest", ( char* )"0.1.0", name );
+  Utils_StrAppend( "mytest", "0.1.0", name );
 
   TEST_ASSERT_EQUAL_STRING( "mytest_0.1.0", name );
 }

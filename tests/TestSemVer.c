@@ -11,35 +11,17 @@ TEST_TEAR_DOWN( TestSemVer )
 {
 }
 
-TEST( TestSemVer, ConvertFromStr )
+TEST( TestSemVer, InitByStrInvalid )
 {
-  tSemverVersion ver;
-  char           str[10] = "1.2.3";
-  int ret;
+  tSemver ver;
+  char    str[10] = "1.2";
+  int     ret;
 
   ver.major = 0;
   ver.minor = 0;
   ver.patch = 0;
 
-  ret = SemVer_ConvertFromStr( &ver, str );
-
-  TEST_ASSERT_EQUAL_INT( 1, ver.major );
-  TEST_ASSERT_EQUAL_INT( 2, ver.minor );
-  TEST_ASSERT_EQUAL_INT( 3, ver.patch );
-  TEST_ASSERT_EQUAL_INT( 0, ret );
-}
-
-TEST( TestSemVer, ConvertFromStrInvalid )
-{
-  tSemverVersion ver;
-  char           str[10] = "1.2";
-  int ret;
-
-  ver.major = 0;
-  ver.minor = 0;
-  ver.patch = 0;
-
-  ret = SemVer_ConvertFromStr( &ver, str );
+  ret = SemVer_InitByStr( &ver, str );
 
   TEST_ASSERT_EQUAL_INT( 0, ver.major );
   TEST_ASSERT_EQUAL_INT( 1, ver.minor );
@@ -47,17 +29,17 @@ TEST( TestSemVer, ConvertFromStrInvalid )
   TEST_ASSERT_EQUAL_INT( 1, ret );
 }
 
-TEST( TestSemVer, ConvertFromStrInvalid2 )
+TEST( TestSemVer, InitByStrInvalid2 )
 {
-  tSemverVersion ver;
-  char           str[10] = ".1.2.3.";
-  int ret;
+  tSemver ver;
+  char    str[10] = ".1.2.3.";
+  int     ret;
 
   ver.major = 0;
   ver.minor = 0;
   ver.patch = 0;
 
-  ret = SemVer_ConvertFromStr( &ver, str );
+  ret = SemVer_InitByStr( &ver, str );
 
   TEST_ASSERT_EQUAL_INT( 0, ver.major );
   TEST_ASSERT_EQUAL_INT( 1, ver.minor );
@@ -65,17 +47,17 @@ TEST( TestSemVer, ConvertFromStrInvalid2 )
   TEST_ASSERT_EQUAL_INT( 1, ret );
 }
 
-TEST( TestSemVer, ConvertFromStrInvalid3 )
+TEST( TestSemVer, InitByStrInvalid3 )
 {
-  tSemverVersion ver;
-  char           str[10] = "123";
-  int ret;
+  tSemver ver;
+  char    str[10] = "123";
+  int     ret;
 
   ver.major = 0;
   ver.minor = 0;
   ver.patch = 0;
 
-  ret = SemVer_ConvertFromStr( &ver, str );
+  ret = SemVer_InitByStr( &ver, str );
 
   TEST_ASSERT_EQUAL_INT( 0, ver.major );
   TEST_ASSERT_EQUAL_INT( 1, ver.minor );
@@ -83,67 +65,48 @@ TEST( TestSemVer, ConvertFromStrInvalid3 )
   TEST_ASSERT_EQUAL_INT( 1, ret );
 }
 
-
-TEST( TestSemVer, ConvertToStr )
+TEST( TestSemVer, InitByStr )
 {
-  tSemverVersion ver;
-  char           str[10] = "0";
+  tSemver ver;
 
   ver.major = 1;
   ver.minor = 2;
   ver.patch = 3;
 
-  SemVer_ConvertToStr( &ver, str, 0 );
+  SemVer_InitByStrFieldlen( &ver, "1.2.3", 0 );
 
-  TEST_ASSERT_EQUAL_STRING( "1.2.3", str );
+  TEST_ASSERT_EQUAL_STRING( "1.2.3", ver.str );
 }
 
-TEST( TestSemVer, ConvertToStr2 )
+TEST( TestSemVer, InitByStr2 )
 {
-  tSemverVersion ver;
-  char           str[10] = "0";
+  tSemver ver;
 
   ver.major = 1;
   ver.minor = 2;
   ver.patch = 3;
 
-  SemVer_ConvertToStr( &ver, str, 2 );
+  SemVer_InitByStrFieldlen( &ver, "1.2.3", 2 );
 
-  TEST_ASSERT_EQUAL_STRING( "01.02.03", str );
+  TEST_ASSERT_EQUAL_STRING( "01.02.03", ver.str );
 }
 
-TEST( TestSemVer, ConvertToStr3 )
+TEST( TestSemVer, InitByStr3 )
 {
-  tSemverVersion ver;
-  char           str[10] = "0";
+  tSemver ver;
 
   ver.major = 1;
   ver.minor = 2;
   ver.patch = 3;
 
-  SemVer_ConvertToStr( &ver, str, 3 );
+  SemVer_InitByStrFieldlen( &ver, "1.2.3", 3 );
 
-  TEST_ASSERT_EQUAL_STRING( "001.002.003", str );
-}
-
-TEST( TestSemVer, Increase255 )
-{
-  tSemverVersion ver;
-
-  ver.major = 0;
-  ver.minor = 255;
-  ver.patch = 255;
-
-  SemVer_IncreasePatch( &ver );
-
-  TEST_ASSERT_EQUAL_INT( 0, ver.major );
-  TEST_ASSERT_EQUAL_INT( 255, ver.minor );
-  TEST_ASSERT_EQUAL_INT( 256, ver.patch );
+  TEST_ASSERT_EQUAL_STRING( "001.002.003", ver.str );
 }
 
 TEST( TestSemVer, SemVerInit )
 {
-  tSemverVersion ver;
+  tSemver ver;
 
   ver.major = 0;
   ver.minor = 0;
@@ -156,48 +119,62 @@ TEST( TestSemVer, SemVerInit )
   TEST_ASSERT_EQUAL_INT( 0, ver.patch );
 }
 
-TEST( TestSemVer, SemVerIncreaseMajor )
+TEST( TestSemVer, SemVerBumpMajor )
 {
-  tSemverVersion ver;
+  tSemver ver;
 
   ver.major = 0;
   ver.minor = 0;
   ver.patch = 0;
 
-  SemVer_IncreaseMajor( &ver );
+  SemVer_BumpMajor( &ver );
 
   TEST_ASSERT_EQUAL_INT( 1, ver.major );
   TEST_ASSERT_EQUAL_INT( 0, ver.minor );
   TEST_ASSERT_EQUAL_INT( 0, ver.patch );
 }
 
-TEST( TestSemVer, SemVerIncreaseMinor )
+TEST( TestSemVer, SemVerBumpMinor )
 {
-  tSemverVersion ver;
+  tSemver ver;
 
   ver.major = 0;
   ver.minor = 0;
   ver.patch = 0;
 
-  SemVer_IncreaseMinor( &ver );
+  SemVer_BumpMinor( &ver );
 
   TEST_ASSERT_EQUAL_INT( 0, ver.major );
   TEST_ASSERT_EQUAL_INT( 1, ver.minor );
   TEST_ASSERT_EQUAL_INT( 0, ver.patch );
 }
 
-TEST( TestSemVer, SemVerIncreasePatch )
+TEST( TestSemVer, SemVerBumpPatch )
 {
-  tSemverVersion ver;
+  tSemver ver;
 
   ver.major = 0;
   ver.minor = 0;
   ver.patch = 0;
 
-  SemVer_IncreasePatch( &ver );
+  SemVer_BumpPatch( &ver );
 
   TEST_ASSERT_EQUAL_INT( 0, ver.major );
   TEST_ASSERT_EQUAL_INT( 0, ver.minor );
   TEST_ASSERT_EQUAL_INT( 1, ver.patch );
 }
 
+TEST( TestSemVer, SemVerBumpPatch255 )
+{
+  tSemver ver;
+
+  ver.major = 0;
+  ver.minor = 255;
+  ver.patch = 255;
+
+  SemVer_BumpPatch( &ver );
+
+  TEST_ASSERT_EQUAL_INT( 0, ver.major );
+  TEST_ASSERT_EQUAL_INT( 255, ver.minor );
+  TEST_ASSERT_EQUAL_INT( 256, ver.patch );
+}

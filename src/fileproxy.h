@@ -16,7 +16,7 @@ int FileProxy_WriteFile( char *filename,
                          char *buf,
                          int size );
 
-int FileProxy_IsFileExist( char *filename );
+int FileProxy_AccessFile( char *filename );
 
 int FileProxy_ReadVersion( char *filename,
                            char *verstr,
@@ -36,6 +36,8 @@ int FileProxy_WriteVersionSimple( char *filename,
 
 int FileProxy_CopyFile( char *filename,
                         char *newname );
+                        
+int FileProxy_RemoveFile( char *filename );
 
 #ifdef __cplusplus
   }

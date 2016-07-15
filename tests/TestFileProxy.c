@@ -1,6 +1,8 @@
 #include "unity_fixture.h"
 #include "fileproxy.h"
 
+#define FILEPROXY_TEST_FILENAME "version.h"
+
 TEST_GROUP( TestFileProxy );
 
 TEST_SETUP( TestFileProxy )
@@ -9,32 +11,29 @@ TEST_SETUP( TestFileProxy )
 
 TEST_TEAR_DOWN( TestFileProxy )
 {   
+  FileProxy_RemoveFile( FILEPROXY_TEST_FILENAME );
 }
 
 TEST( TestFileProxy, SimpleVersion )
 {
   char verstr[128]  = { 0 };
-  char *verstrwrite = ( char* )"7.8.9";
+  char *verstrwrite = "7.8.9";
 
-  FileProxy_WriteVersionSimple( "Simple.Write", verstrwrite, 0 );
-  FileProxy_ReadVersionSimple( "Simple.Write", verstr );
+  FileProxy_WriteVersionSimple( FILEPROXY_TEST_FILENAME, verstrwrite, 0 );
+  FileProxy_ReadVersionSimple( FILEPROXY_TEST_FILENAME, verstr );
 
   TEST_ASSERT_EQUAL_STRING( verstrwrite, verstr );
-
-  remove( "Simple.Write" ); ///< Clear generated file
 }
 
 TEST( TestFileProxy, FullVersionName )
 {
   char verstr[128]  = { 0 };
-  char *verstrwrite = ( char* )"4.5.6";
+  char *verstrwrite = "4.5.6";
 
-  FileProxy_WriteVersion( "Full.Write.Name", verstrwrite, "TESTVERSION", 0 );
-  FileProxy_ReadVersion( "Full.Write.Name", verstr, "TESTVERSION" );
+  FileProxy_WriteVersion( FILEPROXY_TEST_FILENAME, verstrwrite, "TESTVERSION", 0 );
+  FileProxy_ReadVersion( FILEPROXY_TEST_FILENAME, verstr, "TESTVERSION" );
 
   TEST_ASSERT_EQUAL_STRING( verstrwrite, verstr );
-
-  remove( "Full.Write.Name" ); ///< Clear generated file
 }
 
 TEST( TestFileProxy, ReadFileNull )

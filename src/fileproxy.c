@@ -68,7 +68,7 @@ static char * FileProxy_GetDay( void )
   return( DayBuffer );
 }
 
-int FileProxy_IsFileExist( char *filename )
+int FileProxy_AccessFile( char *filename )
 {
   return( access( filename, 0 ) );
 }
@@ -104,17 +104,17 @@ int FileProxy_ReadVersion( char *filename, char *verstr, char *vername )
 int FileProxy_WriteVersion( char *filename, char *verstr,
                             char *vername, int needdate )
 {
-  char           buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
-  int            len                          = 0;
-  char           *timestr                     = 0;
-  tSemverVersion vernum                       = { 0 };
+  char    buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
+  int     len                          = 0;
+  char    *timestr                     = 0;
+  tSemver vernum                       = { 0 };
 
   if ( ( vername == NULL ) || ( *vername == 0 ) )
   {
     vername = FILEPROXY_DEFAULT_VERSION_NAME;
   }
 
-  SemVer_ConvertFromStr( &vernum, verstr );
+  SemVer_InitByStr( &vernum, verstr );
 
   timestr = FileProxy_GetDay( );
 
@@ -206,6 +206,18 @@ int FileProxy_CopyFile( char *filename, char *newname )
   else
   {
     ret = 1;
+  }
+
+  return( ret );
+}
+
+int FileProxy_RemoveFile( char *filename )
+{
+  int ret = 1;
+
+  if ( 0 == FileProxy_AccessFile( filename ) )
+  {
+    ret = remove( filename );
   }
 
   return( ret );

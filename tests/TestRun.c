@@ -5,6 +5,9 @@
 #include "run.h"
 #include "FormatOutputSpy.h"
 #include "fileproxy.h"
+#include "version.h"
+
+#define RUN_TEST_FILENAME "version.h"
 
 static const char *expectedOutput;
 static const char *actualOutput;
@@ -18,28 +21,31 @@ TEST_SETUP( TestRun )
   actualOutput = FormatOutputSpy_GetOutput( );
   FormatOutputSpy_Clear( );
 
-  optind = 1; // Reset to 1 so that getopt can work again
+  optind = 1;
 }
 
 TEST_TEAR_DOWN( TestRun )
 {
   Run_SetFormatOutput( printf );
+  FileProxy_RemoveFile( RUN_TEST_FILENAME );
 }
 
 TEST( TestRun, TestPrintVersion )
 {
-  expectedOutput = "\n"
-                   "semver increases version number in a file 0.11.1\n"
-                   "\n";
-  char *testargv[] = {
-    ( char* )"semver.exe",
-    ( char* )"-v"
+  char expected[128] = { 0 };
+  char *testargv[]   = {
+    "semver.exe",
+    "-v"
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   Run_SemVer( testargc, testargv );
 
-  TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
+  snprintf( expected,
+            128,
+            "\nsemver increases version number in a file %s\n\n",
+            VERSION );
+  TEST_ASSERT_EQUAL_STRING( expected, actualOutput );
 }
 
 TEST( TestRun, TestPrintUsage )
@@ -63,8 +69,8 @@ TEST( TestRun, TestPrintUsage )
                    "\n";
 
   char *testargv[] = {
-    ( char* )"semver.exe",
-    ( char* )"-h"
+    "semver.exe",
+    "-h"
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
@@ -93,16 +99,13 @@ TEST( TestRun, InitVersion )
   char *testargv[] = {
     "semver.exe",
     "-i0.1.0",
-    "version.h"
+    RUN_TEST_FILENAME
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   Run_SemVer( testargc, testargv );
 
-  FileProxy_ReadFile( "version.h", actualbuf, FILEPROXY_FILE_BUF_SIZE );
-
-  /// Clear generated file
-  remove( "version.h" );
+  FileProxy_ReadFile( RUN_TEST_FILENAME, actualbuf, FILEPROXY_FILE_BUF_SIZE );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
   TEST_ASSERT_EQUAL_STRING( expectedbuf, actualbuf );
@@ -115,18 +118,15 @@ TEST( TestRun, GetVersion )
   char *testargv[] = {
     "semver.exe",
     "-g",
-    "version.h"
+    RUN_TEST_FILENAME
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   /// Create version.h and initial version is 0.1.0
-  FileProxy_WriteVersion( "version.h", "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME, "0.1.0", 0, 0 );
 
   /// Get version
   Run_SemVer( testargc, testargv );
-
-  /// Clear generated file
-  remove( "version.h" );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
 }
@@ -139,22 +139,20 @@ TEST( TestRun, AppendFile )
   char *testargv[] = {
     "semver.exe",
     "-aversion.h",
-    "version.h"
+    RUN_TEST_FILENAME
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   /// Create version.h and initial version is 0.1.0
-  FileProxy_WriteVersion( "version.h", "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME, "0.1.0", 0, 0 );
 
   /// Get version
   Run_SemVer( testargc, testargv );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
-  TEST_ASSERT_TRUE( !FileProxy_IsFileExist( "version_0.1.0.h" ) );
+  TEST_ASSERT_TRUE( 0 == FileProxy_AccessFile( "version_0.1.0.h" ) );
 
-  /// Clear generated file
-  remove( "version.h" );
-  remove( "version_0.1.0.h" );
+  FileProxy_RemoveFile( "version_0.1.0.h" );
 }
 
 TEST( TestRun, IncreaseMinor )
@@ -177,20 +175,17 @@ TEST( TestRun, IncreaseMinor )
   char *testargv[] = {
     "semver.exe",
     "-y",
-    "version.h"
+    RUN_TEST_FILENAME
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   /// Create version.h and initial version is 0.1.0
-  FileProxy_WriteVersion( "version.h", "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME, "0.1.0", 0, 0 );
 
   /// Increase version to 0.2.0
   Run_SemVer( testargc, testargv );
 
-  FileProxy_ReadFile( "version.h", actualbuf, FILEPROXY_FILE_BUF_SIZE );
-
-  /// Clear generated file
-  remove( "version.h" );
+  FileProxy_ReadFile( RUN_TEST_FILENAME, actualbuf, FILEPROXY_FILE_BUF_SIZE );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
   TEST_ASSERT_EQUAL_STRING( expectedbuf, actualbuf );
@@ -215,21 +210,18 @@ TEST( TestRun, IncreaseMajor )
   char *testargv[]                        = {
     "semver.exe",
     "-x",
-    "version.h"
+    RUN_TEST_FILENAME
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   /// Create version.h and initial version is 0.1.0
-  FileProxy_WriteVersion( "version.h", "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME, "0.1.0", 0, 0 );
 
   /// Increase version to 1.0.0
   Run_SemVer( testargc, testargv );
 
   /// Get file buffer
-  FileProxy_ReadFile( "version.h", actualbuf, FILEPROXY_FILE_BUF_SIZE );
-
-  /// Clear generated file
-  remove( "version.h" );
+  FileProxy_ReadFile( RUN_TEST_FILENAME, actualbuf, FILEPROXY_FILE_BUF_SIZE );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
   TEST_ASSERT_EQUAL_STRING( expectedbuf, actualbuf );
@@ -254,21 +246,18 @@ TEST( TestRun, IncreasePatch )
   char *testargv[]                        = {
     "semver.exe",
     "-z",
-    "version.h"
+    RUN_TEST_FILENAME
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   /// Create version.h and initial version is 0.1.0
-  FileProxy_WriteVersion( "version.h", "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME, "0.1.0", 0, 0 );
 
   /// Increase version to 1.0.0
   Run_SemVer( testargc, testargv );
 
   /// Get file buffer
-  FileProxy_ReadFile( "version.h", actualbuf, FILEPROXY_FILE_BUF_SIZE );
-
-  /// Clear generated file
-  remove( "version.h" );
+  FileProxy_ReadFile( RUN_TEST_FILENAME, actualbuf, FILEPROXY_FILE_BUF_SIZE );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
   TEST_ASSERT_EQUAL_STRING( expectedbuf, actualbuf );
@@ -284,21 +273,18 @@ TEST( TestRun, IncreaseMinorSimple )
     "semver.exe",
     "-y",
     "-s",
-    "version.h"
+    RUN_TEST_FILENAME
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   /// Create version.h and initial version is 0.1.0
-  FileProxy_WriteVersionSimple( "version.h", "0.1.0", 0 );
+  FileProxy_WriteVersionSimple( RUN_TEST_FILENAME, "0.1.0", 0 );
 
   /// Increase version to 0.2.0
   Run_SemVer( testargc, testargv );
 
   /// Get file buffer
-  FileProxy_ReadFile( "version.h", actualbuf, FILEPROXY_FILE_BUF_SIZE );
-
-  /// Clear generated file
-  remove( "version.h" );
+  FileProxy_ReadFile( RUN_TEST_FILENAME, actualbuf, FILEPROXY_FILE_BUF_SIZE );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
   TEST_ASSERT_EQUAL_STRING( expectedbuf, actualbuf );
@@ -313,18 +299,15 @@ TEST( TestRun, IncreaseMinorSimpleDate )
     "-y",
     "-s",
     "-d",
-    "version.h"
+    RUN_TEST_FILENAME
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   /// Create version.h and initial version is 0.1.0
-  FileProxy_WriteVersionSimple( "version.h", "0.1.0", 1 );
+  FileProxy_WriteVersionSimple( RUN_TEST_FILENAME, "0.1.0", 1 );
 
   /// Increase version to 0.2.0
   Run_SemVer( testargc, testargv );
-
-  /// Clear generated file
-  remove( "version.h" );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
 }
@@ -337,18 +320,89 @@ TEST( TestRun, IncreaseMajorDate )
     "semver.exe",
     "-x",
     "-d",
-    "version.h"
+    RUN_TEST_FILENAME
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
   /// Create version.h and initial version is 0.1.0
-  FileProxy_WriteVersion( "version.h", "0.1.0", 0, 1 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME, "0.1.0", 0, 1 );
 
   /// Increase version to 1.0.0
   Run_SemVer( testargc, testargv );
 
-  /// Clear generated file
-  remove( "version.h" );
+  TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
+}
+
+TEST( TestRun, FieldLen2 )
+{
+  expectedOutput = "Input  version: 00.01.00\n"
+                   "Output version: 01.00.00\n";
+  expectedbuf = "/* This file is managed by semver, Don't modify manually */\n"
+                "/* Visit https://github.com/hyller/SemVer for more information */\n"
+                "#ifndef VERSION_H\n"
+                "#define VERSION_H\n"
+                "\n"
+                "#define  VERSION             \"01.00.00\"\n"
+                "#define  VERSION_MAJOR       1U\n"
+                "#define  VERSION_MINOR       0U\n"
+                "#define  VERSION_PATCH       0U\n"
+                "\n"
+                "#endif\n";
+  char actualbuf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
+  char *testargv[]                        = {
+    "semver.exe",
+    "-x",
+    "-l2",
+    RUN_TEST_FILENAME
+  };
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
+
+  /// Create version.h and initial version is 00.01.00
+  FileProxy_WriteVersion( RUN_TEST_FILENAME, "00.01.00", 0, 0 );
+
+  /// Increase version to 01.00.00
+  Run_SemVer( testargc, testargv );
+
+  /// Get file buffer
+  FileProxy_ReadFile( RUN_TEST_FILENAME, actualbuf, FILEPROXY_FILE_BUF_SIZE );
 
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
+  TEST_ASSERT_EQUAL_STRING( expectedbuf, actualbuf );
+}
+
+TEST( TestRun, FieldLen3 )
+{
+  expectedOutput = "Input  version: 000.001.000\n"
+                   "Output version: 001.000.000\n";
+  expectedbuf = "/* This file is managed by semver, Don't modify manually */\n"
+                "/* Visit https://github.com/hyller/SemVer for more information */\n"
+                "#ifndef VERSION_H\n"
+                "#define VERSION_H\n"
+                "\n"
+                "#define  VERSION             \"001.000.000\"\n"
+                "#define  VERSION_MAJOR       1U\n"
+                "#define  VERSION_MINOR       0U\n"
+                "#define  VERSION_PATCH       0U\n"
+                "\n"
+                "#endif\n";
+  char actualbuf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
+  char *testargv[]                        = {
+    "semver.exe",
+    "-x",
+    "-l3",
+    RUN_TEST_FILENAME
+  };
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
+
+  /// Create version.h and initial version is 000.001.000
+  FileProxy_WriteVersion( RUN_TEST_FILENAME, "000.001.000", 0, 0 );
+
+  /// Increase version to 001.000.000
+  Run_SemVer( testargc, testargv );
+
+  /// Get file buffer
+  FileProxy_ReadFile( RUN_TEST_FILENAME, actualbuf, FILEPROXY_FILE_BUF_SIZE );
+
+  TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
+  TEST_ASSERT_EQUAL_STRING( expectedbuf, actualbuf );
 }

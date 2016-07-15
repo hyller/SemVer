@@ -6,27 +6,31 @@
   {
 #endif
 
+#define SEMVER_STR_LEN ( 50U )
+
 typedef struct
 {
-  int major;
-  int minor;
-  int patch;
-}tSemverVersion;
+  int  major;
+  int  minor;
+  int  patch;
+  char str[SEMVER_STR_LEN];
+  int  fieldlen;
+}tSemver;
 
-int SemVer_Init( tSemverVersion *me );
+int SemVer_Init( tSemver *me );
 
-int SemVer_ConvertFromStr( tSemverVersion *me,
-                           char           *str );
+int SemVer_InitByStr( tSemver *me,
+                      char    *str );
 
-int SemVer_ConvertToStr( tSemverVersion *me,
-                         char           *str,
-                         int            length );
+int SemVer_InitByStrFieldlen( tSemver *me,
+                              char    *str,
+                              int     len );
 
-int SemVer_IncreaseMajor( tSemverVersion *me );
+int SemVer_BumpMajor( tSemver *me );
 
-int SemVer_IncreaseMinor( tSemverVersion *me );
+int SemVer_BumpMinor( tSemver *me );
 
-int SemVer_IncreasePatch( tSemverVersion *me );
+int SemVer_BumpPatch( tSemver *me );
 
 #ifdef __cplusplus
   }
