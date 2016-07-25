@@ -2,7 +2,7 @@
 setlocal
 
 REM Be careful !!!
-set /p input="Is coverage achieve 100%?    [Y/N]:"
+set /p input="Is coverage achieve 100%%?    [Y/N]:"
 if not "%input%" == "Y" goto EXIT
 set /p input="Did you increase version?    [Y/N]:"
 if not "%input%" == "Y" goto EXIT
