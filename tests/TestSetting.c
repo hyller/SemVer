@@ -27,7 +27,6 @@ TEST( TestSetting, ParseAll )
     "-y",
     "-v",
     "-h",
-    "-s",
     "-d",
     "-g",
     "-l2",
@@ -44,7 +43,6 @@ TEST( TestSetting, ParseAll )
   TEST_ASSERT_EQUAL_INT( 1, as.version );
   TEST_ASSERT_EQUAL_INT( 1, as.help );
   TEST_ASSERT_EQUAL_INT( 1, as.index );
-  TEST_ASSERT_EQUAL_INT( 1, as.simple );
   TEST_ASSERT_EQUAL_INT( 1, as.append );
   TEST_ASSERT_EQUAL_INT( 1, as.init );
   TEST_ASSERT_EQUAL_INT( 2, as.length );
@@ -63,7 +61,6 @@ TEST( TestSetting, ParseAll2 )
     "-x",
     "-v",
     "-?",
-    "-s",
     "-ahello",
     "-i2.3.4",
     "-nTESTVERSION",
@@ -77,7 +74,6 @@ TEST( TestSetting, ParseAll2 )
   TEST_ASSERT_EQUAL_INT( 1, as.version );
   TEST_ASSERT_EQUAL_INT( 1, as.help );
   TEST_ASSERT_EQUAL_INT( 2, as.index );
-  TEST_ASSERT_EQUAL_INT( 1, as.simple );
   TEST_ASSERT_EQUAL_INT( 1, as.append );
   TEST_ASSERT_EQUAL_INT( 1, as.init );
   TEST_ASSERT_EQUAL_INT( 0, as.length );
@@ -94,7 +90,6 @@ TEST( TestSetting, ParseAll3 )
     "-z",
     "-v",
     "-?",
-    "-s",
     "-ahello",
     "-i2.3.4",
     "-nTESTVERSION",
@@ -108,7 +103,6 @@ TEST( TestSetting, ParseAll3 )
   TEST_ASSERT_EQUAL_INT( 1, as.version );
   TEST_ASSERT_EQUAL_INT( 1, as.help );
   TEST_ASSERT_EQUAL_INT( 0, as.index );
-  TEST_ASSERT_EQUAL_INT( 1, as.simple );
   TEST_ASSERT_EQUAL_INT( 1, as.append );
   TEST_ASSERT_EQUAL_INT( 1, as.init );
   TEST_ASSERT_EQUAL_INT( 0, as.length );

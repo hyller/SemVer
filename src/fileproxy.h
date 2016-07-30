@@ -8,13 +8,21 @@
 
 #define FILEPROXY_FILE_BUF_SIZE ( 1024U )
 
+typedef enum
+{
+  eFileProxyFileType_Txt = 0,
+  eFileProxyFileType_CHeader,
+  eFileProxyFileType_Java,
+  eFileProxyFileType_Number
+}tFileProxyFileType;
+
 int FileProxy_ReadFile( char *filename,
                         char *buf,
-                        int size );
+                        int  size );
 
 int FileProxy_WriteFile( char *filename,
                          char *buf,
-                         int size );
+                         int  size );
 
 int FileProxy_AccessFile( char *filename );
 
@@ -25,19 +33,14 @@ int FileProxy_ReadVersion( char *filename,
 int FileProxy_WriteVersion( char *filename,
                             char *verstr,
                             char *vername,
-                            int needdate );
-
-int FileProxy_ReadVersionSimple( char *filename,
-                                 char *verstr );
-
-int FileProxy_WriteVersionSimple( char *filename,
-                                  char *verstr,
-                                  int needdate );
+                            int  needdate );
 
 int FileProxy_CopyFile( char *filename,
                         char *newname );
-                        
+
 int FileProxy_RemoveFile( char *filename );
+
+tFileProxyFileType FileProxy_GetFileType( char *filename );
 
 #ifdef __cplusplus
   }

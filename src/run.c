@@ -35,7 +35,6 @@ static void Run_PrintUsage( void )
   FormatOutput( "-l,  Specify version number digits.\n" );
   FormatOutput( "-v,  Print program version.\n" );
   FormatOutput( "-h,  Print this help screen.\n" );
-  FormatOutput( "-s,  Process simple version string.\n" );
   FormatOutput( "-g,  Get version string.\n" );
   FormatOutput( "-a,  Append version string to a file name.\n" );
   FormatOutput( "-i,  Initialize version.\n" );
@@ -54,16 +53,9 @@ static void Run_GetVersion( tSetting *as, tSemver *vd )
   }
   else
   {
-    if ( as->simple == 1 )
-    {
-      FileProxy_ReadVersionSimple( as->filename, verstr );
-    }
-    else
-    {
-      FileProxy_ReadVersion( as->filename,
-                             verstr,
-                             as->vername );
-    }
+    FileProxy_ReadVersion( as->filename,
+                           verstr,
+                           as->vername );
   }
 
   SemVer_InitByStrFieldlen( vd, verstr, as->length );
@@ -99,19 +91,10 @@ static int Run_BumpVersion( tSetting *as, tSemver *versionData )
 
 static void Run_OutputVersion( tSetting *as, tSemver *vd )
 {
-  if ( as->simple == 1 )
-  {
-    FileProxy_WriteVersionSimple( as->filename,
-                                  vd->str,
-                                  as->needdate );
-  }
-  else
-  {
-    FileProxy_WriteVersion( as->filename,
-                            vd->str,
-                            as->vername,
-                            as->needdate );
-  }
+  FileProxy_WriteVersion( as->filename,
+                          vd->str,
+                          as->vername,
+                          as->needdate );
 
   FormatOutput( "Output version: %s\n", vd->str );
 }

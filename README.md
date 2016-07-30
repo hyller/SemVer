@@ -1,5 +1,5 @@
 ## SemVer
-Semantic Version String Management Utility.
+SemVer is a Utility to Bump Semantic Version String in C header, java, and text file.
 
 Travis Linux build status:[![Build Status](https://travis-ci.org/hyller/SemVer.svg?branch=master)](https://travis-ci.org/hyller/SemVer)
 
@@ -8,12 +8,13 @@ AppVeyor Windows build status:[![Build status](https://ci.appveyor.com/api/proje
 Coverage:[![Coverage Status](https://coveralls.io/repos/github/hyller/SemVer/badge.svg?branch=master)](https://coveralls.io/github/hyller/SemVer?branch=master)
 
 ## Context
-These steps would be done to release a software normally  
-1) Increase version number manually, for example, increase 0.1.0 to 0.2.0.  
-2) Rebuild your software and get the target file manually, for example target.hex.  
-3) Append the version number to the target file manually, for example target_0.2.0.hex.  
+These steps would be done to release a software normally
+1) Create a souce file which contain version string.
+2) Increase version number manually, for example, increase 0.1.0 to 0.2.0.  
+3) Rebuild your software and get the target file manually, for example target.hex.  
+4) Append the version number to the target file manually, for example target_0.2.0.hex.  
 
-**SemVer** aims to do the step 1 and step 3.
+**SemVer** aims to do the step 1, step 2 and step 3.
 
 
 ## What can SemVer Do
@@ -30,22 +31,6 @@ Mingw or Cygwin need be installed on windows.
 GCC need be installed on Linux.
 
 Run 'make' to build the executable binary.
-
-## Usage
-
-Usage: semver [option] [file]  
-  
-Options:  
--x,  Increase major version number.  
--y,  Increase minor version number.  
--z,  Increase patch version number.  
--v,  Print program version.  
--h,  Print this help screen.  
--s,  Process simple version string.  
--a,  Append version string to a file name.  
--i,  Initialize version.  
--n,  Specify version definition name.   
--d,  Include modify date in version header file.   
 
 ## Example
 

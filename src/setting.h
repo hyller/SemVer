@@ -15,7 +15,6 @@ typedef struct
   int  version;
   int  error;
   int  length;
-  int  simple;
   int  index;
   int  append;
   char *appendarg;
