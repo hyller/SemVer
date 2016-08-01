@@ -212,7 +212,6 @@ static int FileProxy_WriteVersionJava( char *filename,
 {
   char    buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
   int     len                          = 0;
-  char    *timestr                     = 0;
   tSemver vernum                       = { 0 };
   char    preffix[128]                 = { 0 };
   int     rpos;
@@ -227,8 +226,6 @@ static int FileProxy_WriteVersionJava( char *filename,
   preffix[rpos - 1] = 0;
 
   SemVer_InitByStr( &vernum, verstr );
-
-  timestr = FileProxy_GetDay( );
 
   len += sprintf( &buf[len], "// This file is managed by semver, Don't modify manually\n" );
   len += sprintf( &buf[len], "// Visit https://github.com/hyller/SemVer for more information\n" );
