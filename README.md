@@ -8,8 +8,8 @@ AppVeyor Windows build status:[![Build status](https://ci.appveyor.com/api/proje
 Coverage:[![Coverage Status](https://coveralls.io/repos/github/hyller/SemVer/badge.svg?branch=master)](https://coveralls.io/github/hyller/SemVer?branch=master)
 
 ## Context
-These steps would be done to release a software normally
-1) Create a souce file which contain version string.
+These steps would be done to release a software normally  
+1) Create a souce file which contain version string.  
 2) Increase version number manually, for example, increase 0.1.0 to 0.2.0.  
 3) Rebuild your software and get the target file manually, for example target.hex.  
 4) Append the version number to the target file manually, for example target_0.2.0.hex.  
