@@ -31,12 +31,13 @@ OBJS_UNITY = $(DIR_OBJS)/unity.o $(DIR_OBJS)/unity_fixture.o
 EXEC_NAME_TARGET = semver$(TARGET_EXT)
 EXEC_NAME_TEST = semver_test$(TARGET_EXT)
 
+.PHONY: all check clean gcov lcov
+
 all: $(EXEC_NAME_TARGET)
 
 $(EXEC_NAME_TARGET): $(OBJS_SRC) $(OBJS_MAIN)
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 	./$(EXEC_NAME_TARGET) -v
-
 
 check: $(EXEC_NAME_TEST)
 
@@ -50,6 +51,13 @@ $(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)
 $(DIR_OBJS)/%o: %c
 	@mkdir -p $(DIR_OBJS)
 	$(COMPILE.c) $(OUTPUT_OPTION) $<
+	
+gcov:
+	gcov -o $(DIR_OBJS) -n semver.c fileproxy.c run.c setting.c utils.c	
+
+lcov:
+	lcov --directory $(DIR_OBJS) --capture --output-file $(DIR_OBJS)/app.info
+	genhtml --output-directory output --title "SemVer" $(DIR_OBJS)/app.info
 	
 clean:
 	rm -f $(DIR_OBJS)/*.* $(EXEC_NAME_TARGET) $(EXEC_NAME_TEST) 
