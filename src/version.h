@@ -3,9 +3,9 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define  VERSION             "0.12.0"
+#define  VERSION             "0.13.0"
 #define  VERSION_MAJOR       0U
-#define  VERSION_MINOR       12U
+#define  VERSION_MINOR       13U
 #define  VERSION_PATCH       0U
 
 #endif

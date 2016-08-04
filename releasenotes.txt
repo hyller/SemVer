@@ -1,5 +1,6 @@
-[0.x.0]
+[0.13.0]
 -- Support java source code file
+-- Auto detect file type
 
 [0.12.0]
 -- add semverenv.bat script
