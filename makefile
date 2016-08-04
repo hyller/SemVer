@@ -42,7 +42,6 @@ $(EXEC_NAME_TARGET): $(OBJS_SRC) $(OBJS_MAIN)
 check: $(EXEC_NAME_TEST)
 
 $(EXEC_NAME_TEST): CFLAGS += -fprofile-arcs -ftest-coverage
-$(EXEC_NAME_TEST): LDLIBS += -lgcov
 $(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)    
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
 	rm -f $(DIR_OBJS)/*.gcda
