@@ -22,7 +22,6 @@ typedef struct
   char *initarg;
   char filename[128];
   char *vername;
-  int  needdate;
 } tSetting;
 
 void Setting_Init( tSetting *as );

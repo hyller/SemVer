@@ -32,8 +32,7 @@ int FileProxy_ReadVersion( char *filename,
 
 int FileProxy_WriteVersion( char *filename,
                             char *verstr,
-                            char *vername,
-                            int  needdate );
+                            char *vername );
 
 int FileProxy_CopyFile( char *filename,
                         char *newname );

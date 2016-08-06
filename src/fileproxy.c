@@ -55,18 +55,6 @@ int FileProxy_WriteFile( char *filename, char *buf, int size )
   return( 0 );
 }
 
-static char * FileProxy_GetDay( void )
-{
-  static char DayBuffer[80];
-  struct tm   *tmt;
-  time_t      timet;
-
-  timet = time( 0 );
-  tmt   = gmtime( &timet );
-  strftime( DayBuffer, 80, "%Y-%m-%d", tmt );
-
-  return( DayBuffer );
-}
 
 tFileProxyFileType FileProxy_GetFileType( char *filename )
 {
@@ -137,12 +125,10 @@ static int FileProxy_ReadVersionCHeader( char *filename,
 
 static int FileProxy_WriteVersionCHeader( char *filename,
                                           char *verstr,
-                                          char *vername,
-                                          int  needdate )
+                                          char *vername )
 {
   char    buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
   int     len                          = 0;
-  char    *timestr                     = 0;
   tSemver vernum                       = { 0 };
 
   if ( ( vername == NULL ) || ( *vername == 0 ) )
@@ -152,7 +138,6 @@ static int FileProxy_WriteVersionCHeader( char *filename,
 
   SemVer_InitByStr( &vernum, verstr );
 
-  timestr = FileProxy_GetDay( );
 
   len += sprintf( &buf[len], "/* This file is managed by semver, Don't modify manually */\n" );
   len += sprintf( &buf[len], "/* Visit https://github.com/hyller/SemVer for more information */\n" );
@@ -163,10 +148,6 @@ static int FileProxy_WriteVersionCHeader( char *filename,
   len += sprintf( &buf[len], "#define  %s_MAJOR       %uU\n", vername, vernum.major );
   len += sprintf( &buf[len], "#define  %s_MINOR       %uU\n", vername, vernum.minor );
   len += sprintf( &buf[len], "#define  %s_PATCH       %uU\n", vername, vernum.patch );
-  if ( needdate )
-  {
-    len += sprintf( &buf[len], "#define  %s_MODIFY_DATE \"%s\"\n", vername, timestr );
-  }
   len += sprintf( &buf[len], "\n" );
   len += sprintf( &buf[len], "#endif\n" );
 
@@ -207,8 +188,7 @@ static int FileProxy_ReadVersionJava( char *filename,
 
 static int FileProxy_WriteVersionJava( char *filename,
                                        char *verstr,
-                                       char *vername,
-                                       int  needdate )
+                                       char *vername )
 {
   char    buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
   int     len                          = 0;
@@ -231,10 +211,10 @@ static int FileProxy_WriteVersionJava( char *filename,
   len += sprintf( &buf[len], "// Visit https://github.com/hyller/SemVer for more information\n" );
   len += sprintf( &buf[len], "public class %s\n", preffix );
   len += sprintf( &buf[len], "{\n" );
-  len += sprintf( &buf[len], "    static final String %s       = \"%s\";\n", vername, verstr );
-  len += sprintf( &buf[len], "    static final int    %s_MAJOR = %d;\n", vername, vernum.major );
-  len += sprintf( &buf[len], "    static final int    %s_MINOR = %d;\n", vername, vernum.minor );
-  len += sprintf( &buf[len], "    static final int    %s_PATCH = %d;\n", vername, vernum.patch );
+  len += sprintf( &buf[len], "    public static final String %s       = \"%s\";\n", vername, verstr );
+  len += sprintf( &buf[len], "    public static final int    %s_MAJOR = %d;\n", vername, vernum.major );
+  len += sprintf( &buf[len], "    public static final int    %s_MINOR = %d;\n", vername, vernum.minor );
+  len += sprintf( &buf[len], "    public static final int    %s_PATCH = %d;\n", vername, vernum.patch );
   len += sprintf( &buf[len], "}\n" );
 
   FileProxy_WriteFile( filename, buf, strlen( buf ) );
@@ -267,22 +247,11 @@ static int FileProxy_ReadVersionTxt( char *filename,
 
 static int FileProxy_WriteVersionTxt( char *filename,
                                       char *verstr,
-                                      char *vername,
-                                      int  needdate )
+                                      char *vername )
 {
   char buf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
-  char *timestr                     = 0;
 
-  if ( needdate )
-  {
-    timestr = FileProxy_GetDay( );
-
-    sprintf( buf, "%s    %s", verstr, timestr );
-  }
-  else
-  {
-    sprintf( buf, "%s", verstr );
-  }
+  sprintf( buf, "%s", verstr );
 
   FileProxy_WriteFile( filename, buf, strlen( buf ) );
 
@@ -315,23 +284,22 @@ int FileProxy_ReadVersion( char *filename,
 
 int FileProxy_WriteVersion( char *filename,
                             char *verstr,
-                            char *vername,
-                            int  needdate )
+                            char *vername )
 {
   int ret;
 
   switch ( FileProxy_GetFileType( filename ) )
   {
     case eFileProxyFileType_CHeader:
-      ret = FileProxy_WriteVersionCHeader( filename, verstr, vername, needdate );
+      ret = FileProxy_WriteVersionCHeader( filename, verstr, vername );
       break;
 
     case eFileProxyFileType_Java:
-      ret = FileProxy_WriteVersionJava( filename, verstr, vername, needdate );
+      ret = FileProxy_WriteVersionJava( filename, verstr, vername );
       break;
 
     default:
-      ret = FileProxy_WriteVersionTxt( filename, verstr, vername, needdate );
+      ret = FileProxy_WriteVersionTxt( filename, verstr, vername );
       break;
   }
 

@@ -39,7 +39,6 @@ static void Run_PrintUsage( void )
   FormatOutput( "-a,  Append version string to a file name.\n" );
   FormatOutput( "-i,  Initialize version.\n" );
   FormatOutput( "-n,  Specify version definition name.\n" );
-  FormatOutput( "-d,  Include modify date in version header file.\n" );
   FormatOutput( "\n" );
 }
 
@@ -93,8 +92,7 @@ static void Run_OutputVersion( tSetting *as, tSemver *vd )
 {
   FileProxy_WriteVersion( as->filename,
                           vd->str,
-                          as->vername,
-                          as->needdate );
+                          as->vername );
 
   FormatOutput( "Output version: %s\n", vd->str );
 }

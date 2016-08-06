@@ -31,7 +31,7 @@ OBJS_UNITY = $(DIR_OBJS)/unity.o $(DIR_OBJS)/unity_fixture.o
 EXEC_NAME_TARGET = semver$(TARGET_EXT)
 EXEC_NAME_TEST = semver_test$(TARGET_EXT)
 
-.PHONY: all check clean gcov lcov
+.PHONY: all check checkv clean gcov lcov
 
 all: $(EXEC_NAME_TARGET)
 
@@ -40,13 +40,17 @@ $(EXEC_NAME_TARGET): $(OBJS_SRC) $(OBJS_MAIN)
 	./$(EXEC_NAME_TARGET) -v
 
 check: $(EXEC_NAME_TEST)
+	rm -f $(DIR_OBJS)/*.gcda
+	./$(EXEC_NAME_TEST)
+	
+checkv: $(EXEC_NAME_TEST)
+	rm -f $(DIR_OBJS)/*.gcda
+	./$(EXEC_NAME_TEST) -v
 
 $(EXEC_NAME_TEST): CFLAGS += -fprofile-arcs -ftest-coverage
 $(EXEC_NAME_TEST): $(OBJS_UNITY) $(OBJS_SRC) $(OBJS_TEST)    
 	$(LINK.c) $^ $(LOADLIBES) $(LDLIBS) -o $@
-	rm -f $(DIR_OBJS)/*.gcda
-	./$(EXEC_NAME_TEST) -v
-
+	
 $(DIR_OBJS)/%o: %c
 	@mkdir -p $(DIR_OBJS)
 	$(COMPILE.c) $(OUTPUT_OPTION) $<

@@ -6,7 +6,7 @@
   {
 #endif
 
-#define SEMVER_STR_LEN ( 50U )
+#define SEMVER_STR_LEN ( 255u )
 
 typedef struct
 {

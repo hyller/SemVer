@@ -68,7 +68,6 @@ TEST( TestRun, TestPrintUsage )
                    "-a,  Append version string to a file name.\n"
                    "-i,  Initialize version.\n"
                    "-n,  Specify version definition name.\n"
-                   "-d,  Include modify date in version header file.\n"
                    "\n";
 
   char *testargv[] = {
@@ -125,7 +124,7 @@ TEST( TestRun, GetVersion )
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0 );
 
   Run_SemVer( testargc, testargv );
 
@@ -144,7 +143,7 @@ TEST( TestRun, AppendFile )
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0 );
 
   Run_SemVer( testargc, testargv );
 
@@ -178,7 +177,7 @@ TEST( TestRun, IncreaseMinor )
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0 );
 
   Run_SemVer( testargc, testargv );
 
@@ -196,10 +195,10 @@ TEST( TestRun, IncreaseMinorJava )
                 "// Visit https://github.com/hyller/SemVer for more information\n"
                 "public class version\n"
                 "{\n"    
-                "    static final String VERSION       = \"0.2.0\";\n"
-                "    static final int    VERSION_MAJOR = 0;\n"
-                "    static final int    VERSION_MINOR = 2;\n"
-                "    static final int    VERSION_PATCH = 0;\n"
+                "    public static final String VERSION       = \"0.2.0\";\n"
+                "    public static final int    VERSION_MAJOR = 0;\n"
+                "    public static final int    VERSION_MINOR = 2;\n"
+                "    public static final int    VERSION_PATCH = 0;\n"
                 "}\n";
   char actualbuf[FILEPROXY_FILE_BUF_SIZE] = { 0 };
   
@@ -210,7 +209,7 @@ TEST( TestRun, IncreaseMinorJava )
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_JAVA, "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_JAVA, "0.1.0", 0 );
 
   Run_SemVer( testargc, testargv );
 
@@ -244,7 +243,7 @@ TEST( TestRun, IncreaseMajor )
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0 );
 
   Run_SemVer( testargc, testargv );
 
@@ -277,7 +276,7 @@ TEST( TestRun, IncreasePatch )
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0 );
 
   Run_SemVer( testargc, testargv );
 
@@ -300,7 +299,7 @@ TEST( TestRun, IncreaseMinorSimple )
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_TXT, "0.1.0", NULL, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_TXT, "0.1.0", NULL );
 
   Run_SemVer( testargc, testargv );
 
@@ -317,12 +316,11 @@ TEST( TestRun, IncreaseMinorSimpleDate )
   char *testargv[] = {
     "semver.exe",
     "-y",
-    "-d",
     RUN_TEST_FILENAME_TXT
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_TXT, "0.1.0", NULL, 1 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_TXT, "0.1.0", NULL );
 
   Run_SemVer( testargc, testargv );
 
@@ -336,12 +334,11 @@ TEST( TestRun, IncreaseMajorDate )
   char *testargv[] = {
     "semver.exe",
     "-x",
-    "-d",
     RUN_TEST_FILENAME_CHEADER
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0, 1 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "0.1.0", 0 );
 
   Run_SemVer( testargc, testargv );
 
@@ -372,7 +369,7 @@ TEST( TestRun, FieldLen2 )
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "00.01.00", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "00.01.00", 0 );
 
   Run_SemVer( testargc, testargv );
 
@@ -406,7 +403,7 @@ TEST( TestRun, FieldLen3 )
   };
   int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
 
-  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "000.001.000", 0, 0 );
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "000.001.000", 0 );
 
   Run_SemVer( testargc, testargv );
 

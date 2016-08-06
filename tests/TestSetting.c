@@ -27,7 +27,6 @@ TEST( TestSetting, ParseAll )
     "-y",
     "-v",
     "-h",
-    "-d",
     "-g",
     "-l2",
     "-ahello",
@@ -46,7 +45,6 @@ TEST( TestSetting, ParseAll )
   TEST_ASSERT_EQUAL_INT( 1, as.append );
   TEST_ASSERT_EQUAL_INT( 1, as.init );
   TEST_ASSERT_EQUAL_INT( 2, as.length );
-  TEST_ASSERT_EQUAL_INT( 1, as.needdate);
   TEST_ASSERT_EQUAL_INT( 1, as.get);
   TEST_ASSERT_EQUAL_STRING( "hello", as.appendarg );
   TEST_ASSERT_EQUAL_STRING( "version.h", as.filename );

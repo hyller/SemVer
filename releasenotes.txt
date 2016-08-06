@@ -1,3 +1,6 @@
+[0.x.x]
+-- Don't support -d option to follow semver guide.
+
 [0.13.0]
 -- Support java source code file
 -- Auto detect file type
