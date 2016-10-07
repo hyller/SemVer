@@ -1,5 +1,5 @@
-[0.x.x]
--- Don't support -d option to follow semver guide.
+[0.13.1]
+-- Get command show same string in the file
 
 [0.13.0]
 -- Support java source code file

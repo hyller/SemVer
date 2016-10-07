@@ -131,6 +131,25 @@ TEST( TestRun, GetVersion )
   TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
 }
 
+TEST( TestRun, GetVersion2 )
+{
+  expectedOutput = "Input  version: 00.01.00\n";
+
+  char *testargv[] = {
+    "semver.exe",
+    "-g",
+    RUN_TEST_FILENAME_CHEADER
+  };
+  int  testargc = sizeof( testargv ) / sizeof( testargv[0] );
+
+  FileProxy_WriteVersion( RUN_TEST_FILENAME_CHEADER, "00.01.00", 0 );
+
+  Run_SemVer( testargc, testargv );
+
+  TEST_ASSERT_EQUAL_STRING( expectedOutput, actualOutput );
+}
+
+
 TEST( TestRun, AppendFile )
 {
   expectedOutput = "Input  version: 0.1.0\n"

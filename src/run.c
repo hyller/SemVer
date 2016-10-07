@@ -59,7 +59,7 @@ static void Run_GetVersion( tSetting *as, tSemver *vd )
 
   SemVer_InitByStrFieldlen( vd, verstr, as->length );
 
-  FormatOutput( "Input  version: %s\n", vd->str );
+  FormatOutput( "Input  version: %s\n", verstr );
 }
 
 static int Run_BumpVersion( tSetting *as, tSemver *versionData )
