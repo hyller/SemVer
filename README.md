@@ -26,7 +26,7 @@ The version format defined in [semver.org](http://semver.org).
 
 ## Build from Code
 
-There are prebuild binaries for windows in folder bin. You can try to use them directly.
+There are released binaries for windows in [SemVer Release](https://github.com/hyller/SemVer/releases). You can try to use them directly.
 
 If you want to build it from code. Compile tool is GCC. 
 Mingw or Cygwin is needed be installed on windows.
