@@ -25,10 +25,8 @@
 *.lib
 
 # Executables
-semver.exe
-semver_test.exe
-semver.out
-semver_test.out
+*.exe
+*.out
 *.app
 
 # source insight files

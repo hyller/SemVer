@@ -63,5 +63,5 @@ lcov:
 	genhtml --output-directory output --title "SemVer" $(DIR_OBJS)/app.info
 	
 clean:
-	rm -f $(DIR_OBJS)/*.* $(EXEC_NAME_TARGET) $(EXEC_NAME_TEST) 
+	rm -f $(DIR_OBJS)/*.* $(EXEC_NAME_TARGET) $(EXEC_NAME_TEST) *.exe *.out
 
