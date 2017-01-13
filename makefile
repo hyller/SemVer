@@ -6,7 +6,7 @@ endif
 
 CC = gcc
 
-UNITY_ROOT = Unity/2.3
+UNITY_ROOT = Unity/2.4
 
 CFLAGS  = -std=c99
 CFLAGS += -Wall -Werror -MMD
@@ -26,7 +26,7 @@ OBJS_TEST  += $(DIR_OBJS)/TestUtils.o $(DIR_OBJS)/TestUtilsRunner.o
 OBJS_TEST  += $(DIR_OBJS)/TestRun.o $(DIR_OBJS)/TestRunRunner.o
 OBJS_TEST  += $(DIR_OBJS)/FormatOutputSpy.o
 OBJS_TEST  += $(DIR_OBJS)/TestMain.o
-OBJS_UNITY = $(DIR_OBJS)/unity.o $(DIR_OBJS)/unity_fixture.o
+OBJS_UNITY  = $(DIR_OBJS)/unity.o $(DIR_OBJS)/unity_fixture.o
 
 EXEC_NAME_TARGET = semver$(TARGET_EXT)
 EXEC_NAME_TEST = semver_test$(TARGET_EXT)
