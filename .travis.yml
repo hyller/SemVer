@@ -1,4 +1,12 @@
 language: c
+matrix:
+ include:
+    - os: osx
+      compiler: clang
+      osx_image: xcode7.3
+    - os: linux
+      dist: trusty
+      compiler: gcc
 before_install:
   - pip install --user cpp-coveralls
 script:
