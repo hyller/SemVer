@@ -330,6 +330,16 @@ int FileProxy_CopyFile( char *filename, char *newname )
   }
   else
   {
+    if ( fpSrc != NULL )
+    {
+      fclose( fpSrc );
+    }
+    
+    if ( fpDst != NULL )
+    {
+      fclose( fpDst );
+    }    
+    
     ret = 1;
   }
 

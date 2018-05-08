@@ -11,7 +11,7 @@
 
 static int SemVer_ValidPos( int len, int lpos, int rpos )
 {
-  if ( ( lpos == 0 ) || ( rpos == 0 ) )
+  if ( ( lpos <= 0 ) || ( rpos <= 0 ) )
   {
     return( 1 );
   }
