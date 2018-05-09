@@ -41,8 +41,13 @@ semver.PRI
 semver.WK3
 semver.PS
 semver.SearchResults
+Semver.si4project
 
 # work folders
 objs/
 output/
 
+# Klocwork project
+.kwlp
+.kwps
+runkw.bat

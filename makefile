@@ -64,4 +64,6 @@ lcov:
 	
 clean:
 	rm -f $(DIR_OBJS)/*.* $(EXEC_NAME_TARGET) $(EXEC_NAME_TEST) *.exe *.out
-
+	
+cppcheck:
+	"C:\Program Files\Cppcheck\cppcheck.exe" --enable=warning  -q src/

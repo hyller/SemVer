@@ -55,7 +55,6 @@ int FileProxy_WriteFile( char *filename, char *buf, int size )
   return( 0 );
 }
 
-
 tFileProxyFileType FileProxy_GetFileType( char *filename )
 {
   tFileProxyFileType ret             = eFileProxyFileType_Txt;
@@ -138,16 +137,15 @@ static int FileProxy_WriteVersionCHeader( char *filename,
 
   SemVer_InitByStr( &vernum, verstr );
 
-
   len += sprintf( &buf[len], "/* This file is managed by semver, Don't modify manually */\n" );
   len += sprintf( &buf[len], "/* Visit https://github.com/hyller/SemVer for more information */\n" );
   len += sprintf( &buf[len], "#ifndef %s_H\n", vername );
   len += sprintf( &buf[len], "#define %s_H\n", vername );
   len += sprintf( &buf[len], "\n" );
   len += sprintf( &buf[len], "#define  %s             \"%s\"\n", vername, verstr );
-  len += sprintf( &buf[len], "#define  %s_MAJOR       %uU\n", vername, vernum.major );
-  len += sprintf( &buf[len], "#define  %s_MINOR       %uU\n", vername, vernum.minor );
-  len += sprintf( &buf[len], "#define  %s_PATCH       %uU\n", vername, vernum.patch );
+  len += sprintf( &buf[len], "#define  %s_MAJOR       %dU\n", vername, vernum.major );
+  len += sprintf( &buf[len], "#define  %s_MINOR       %dU\n", vername, vernum.minor );
+  len += sprintf( &buf[len], "#define  %s_PATCH       %dU\n", vername, vernum.patch );
   len += sprintf( &buf[len], "\n" );
   len += sprintf( &buf[len], "#endif\n" );
 
@@ -334,12 +332,12 @@ int FileProxy_CopyFile( char *filename, char *newname )
     {
       fclose( fpSrc );
     }
-    
+
     if ( fpDst != NULL )
     {
       fclose( fpDst );
-    }    
-    
+    }
+
     ret = 1;
   }
 
