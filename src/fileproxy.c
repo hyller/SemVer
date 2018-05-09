@@ -322,23 +322,23 @@ int FileProxy_CopyFile( char *filename, char *newname )
       fwrite( &ch, sizeof( char ), 1, fpDst );
     }
     fflush( fpDst );
-    fclose( fpSrc );
-    fclose( fpDst );
     ret = 0;
   }
   else
   {
-    if ( fpSrc != NULL )
-    {
-      fclose( fpSrc );
-    }
-
-    if ( fpDst != NULL )
-    {
-      fclose( fpDst );
-    }
-
     ret = 1;
+  }
+
+  if ( fpSrc != NULL )
+  {
+    fclose( fpSrc );
+    fpSrc = NULL;
+  }
+
+  if ( fpDst != NULL )
+  {
+    fclose( fpDst );
+    fpDst = NULL;
   }
 
   return( ret );
