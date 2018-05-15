@@ -51,3 +51,6 @@ output/
 .kwlp
 .kwps
 runkw.bat
+
+# vscode project
+.vscode
